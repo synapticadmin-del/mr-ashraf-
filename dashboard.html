@@ -18,8 +18,6 @@
         radial-gradient(ellipse 300px 180px at 92% 85%, rgba(139,149,101,0.16), transparent 60%),
         radial-gradient(ellipse 220px 140px at 15% 90%, rgba(95,122,97,0.10), transparent 60%);
     }
-    .letter-tile { transition: transform .25s ease, box-shadow .25s ease; }
-    .letter-tile:hover { transform: translateY(-4px); box-shadow: 0 12px 28px -10px rgba(20,43,36,.25); }
   </style>
 </head>
 <body class="font-cairo bg-fusha-cream text-fusha-forest min-h-screen">
@@ -52,77 +50,102 @@
       </div>
     </section>
 
-    <!-- journey banner -->
+    <!-- continue watching -->
     <section class="leaf-bg rounded-3xl p-6 sm:p-8 border border-fusha-khaki/50 overflow-hidden relative">
-      <div class="flex flex-wrap items-start justify-between gap-4">
-        <div class="flex items-center gap-4">
-          <div class="relative w-16 h-16">
-            <svg class="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
-              <circle cx="32" cy="32" r="28" fill="none" stroke="#B7B19B" stroke-opacity=".4" stroke-width="6"/>
-              <circle cx="32" cy="32" r="28" fill="none" stroke="#EAA72E" stroke-width="6" stroke-linecap="round" stroke-dasharray="175.9" stroke-dashoffset="175.9"/>
-            </svg>
-            <span class="absolute inset-0 flex items-center justify-center text-xs font-black text-fusha-forest">0%</span>
-          </div>
-          <div>
-            <p class="text-sm font-bold text-fusha-oliveDark">أداؤك في البداية</p>
-            <span class="mt-1 inline-flex items-center gap-1.5 text-[11px] font-bold bg-white/70 border border-fusha-khaki/60 text-fusha-forest rounded-full px-3 py-1">
-              <i data-lucide="leaf" class="w-3.5 h-3.5 text-fusha-sage"></i> أول حرف مفتوح
-            </span>
-          </div>
-        </div>
-        <div class="text-left sm:text-right">
-          <h2 class="font-alexandria text-2xl sm:text-3xl font-extrabold text-fusha-forest">رحلة حروف <span class="text-fusha-sunDark">فُصْحَى</span></h2>
-          <p class="mt-1 text-sm font-semibold text-fusha-oliveDark">كل خطوة يحكيها حرف جديد على الحكاية</p>
-        </div>
+      <div class="flex items-center justify-between gap-3 flex-wrap mb-5">
+        <h2 class="font-alexandria text-xl sm:text-2xl font-extrabold text-fusha-forest flex items-center gap-2">
+          <i data-lucide="play-circle" class="w-6 h-6 text-fusha-sunDark"></i> كمّل من حيث وقفت
+        </h2>
+        <span class="text-[11px] font-bold bg-white/70 border border-fusha-khaki/60 text-fusha-oliveDark rounded-full px-3 py-1">الصف الثالث الثانوي — الوحدة الأولى</span>
       </div>
-
-      <p class="mt-6 mb-3 text-sm font-extrabold text-fusha-forest text-left">حروفك بتكمّل الحكاية</p>
-      <div class="grid grid-cols-3 sm:grid-cols-6 gap-3 sm:gap-4">
-        <!-- ف — مفتوح -->
-        <div class="letter-tile relative bg-white/80 border-2 border-dashed border-fusha-sun rounded-2xl py-5 flex flex-col items-center gap-2">
-          <span class="font-alexandria text-5xl font-extrabold text-fusha-forest drop-shadow-sm">ف</span>
-          <span class="inline-flex items-center gap-1 text-[10px] font-black bg-fusha-sunLight text-fusha-sunDark rounded-full px-2.5 py-0.5 border border-fusha-sun/40">
-            <i data-lucide="lock-open" class="w-3 h-3"></i> حرف فُصْحَى مفتوح
-          </span>
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-5">
+        <div class="relative w-full sm:w-44 h-28 rounded-2xl bg-fusha-forest flex items-center justify-center shrink-0 overflow-hidden shadow-lg shadow-fusha-forest/20">
+          <i data-lucide="book-open-text" class="w-10 h-10 text-white/25"></i>
+          <span class="absolute bottom-2 left-2 bg-black/50 text-white text-[10px] font-bold rounded-md px-2 py-0.5" dir="ltr">23:45</span>
+          <button class="absolute inset-0 m-auto w-12 h-12 rounded-full bg-fusha-sun text-fusha-forestDark flex items-center justify-center shadow-xl hover:scale-110 transition-transform" aria-label="تشغيل">
+            <i data-lucide="play" class="w-5 h-5 mr-0.5"></i>
+          </button>
         </div>
-        <!-- باقي الحروف مقفلة -->
-        <div class="letter-tile relative bg-white/60 border-2 border-dashed border-fusha-khaki rounded-2xl py-5 flex flex-col items-center gap-2 opacity-80">
-          <i data-lucide="lock" class="absolute top-2 left-2 w-3.5 h-3.5 text-fusha-oliveDark/60"></i>
-          <span class="font-alexandria text-5xl font-extrabold text-fusha-forest/45">ص</span>
-          <span class="text-[10px] font-black bg-white text-fusha-oliveDark rounded-full px-2.5 py-0.5 border border-fusha-khaki/70">مقفل</span>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-alexandria text-lg sm:text-2xl font-extrabold text-fusha-forest">النحو: كان وأخواتها — الجزء الأول</h3>
+          <p class="mt-1 text-xs sm:text-sm font-semibold text-fusha-oliveDark">أ. أشرف سليم • المدة 45 دقيقة • وقفت عند 23:45</p>
+          <div class="mt-4 h-2.5 rounded-full bg-white/70 border border-fusha-khaki/50 overflow-hidden">
+            <div class="h-full w-[52%] rounded-full bg-gradient-to-l from-fusha-sun to-fusha-sunHover"></div>
+          </div>
+          <p class="mt-1.5 text-[11px] font-black text-fusha-oliveDark">52% من المحاضرة</p>
         </div>
-        <div class="letter-tile relative bg-white/60 border-2 border-dashed border-fusha-khaki rounded-2xl py-5 flex flex-col items-center gap-2 opacity-80">
-          <i data-lucide="lock" class="absolute top-2 left-2 w-3.5 h-3.5 text-fusha-oliveDark/60"></i>
-          <span class="font-alexandria text-5xl font-extrabold text-fusha-forest/45">ح</span>
-          <span class="text-[10px] font-black bg-white text-fusha-oliveDark rounded-full px-2.5 py-0.5 border border-fusha-khaki/70">مقفل</span>
-        </div>
-        <div class="letter-tile relative bg-white/60 border-2 border-dashed border-fusha-khaki rounded-2xl py-5 flex flex-col items-center gap-2 opacity-80">
-          <i data-lucide="lock" class="absolute top-2 left-2 w-3.5 h-3.5 text-fusha-oliveDark/60"></i>
-          <span class="font-alexandria text-5xl font-extrabold text-fusha-forest/45">ى</span>
-          <span class="text-[10px] font-black bg-white text-fusha-oliveDark rounded-full px-2.5 py-0.5 border border-fusha-khaki/70">مقفل</span>
-        </div>
-        <div class="letter-tile relative bg-white/60 border-2 border-dashed border-fusha-khaki rounded-2xl py-5 flex flex-col items-center gap-2 opacity-80">
-          <i data-lucide="lock" class="absolute top-2 left-2 w-3.5 h-3.5 text-fusha-oliveDark/60"></i>
-          <span class="font-alexandria text-5xl font-extrabold text-fusha-forest/35">؟</span>
-          <span class="text-[10px] font-black bg-white text-fusha-oliveDark rounded-full px-2.5 py-0.5 border border-fusha-khaki/70">مفاجأة</span>
-        </div>
-        <div class="letter-tile relative bg-white/60 border-2 border-dashed border-fusha-khaki rounded-2xl py-5 flex flex-col items-center gap-2 opacity-80">
-          <i data-lucide="lock" class="absolute top-2 left-2 w-3.5 h-3.5 text-fusha-oliveDark/60"></i>
-          <span class="font-alexandria text-5xl font-extrabold text-fusha-forest/35">؟</span>
-          <span class="text-[10px] font-black bg-white text-fusha-oliveDark rounded-full px-2.5 py-0.5 border border-fusha-khaki/70">مفاجأة</span>
-        </div>
+        <a href="#" class="shrink-0 inline-flex items-center justify-center gap-2 bg-fusha-forest hover:bg-fusha-forestLight text-white font-extrabold text-sm rounded-xl px-7 py-3.5 shadow-lg shadow-fusha-forest/25 transition-colors">
+          <i data-lucide="play" class="w-4 h-4 text-fusha-sun"></i> كمّل المشاهدة
+        </a>
       </div>
     </section>
 
-    <!-- quote strip -->
-    <section class="rounded-3xl bg-fusha-forest text-white p-6 sm:p-8 flex items-center gap-5 relative overflow-hidden shadow-xl shadow-fusha-forest/25">
-      <i data-lucide="feather" class="w-12 h-12 text-fusha-sun shrink-0 hidden sm:block"></i>
-      <div class="relative">
-        <p class="font-alexandria text-lg sm:text-2xl font-bold leading-relaxed">
-          كل حرف بتجمعه هو محطة جديدة في رحلتك في رحلتنا — كلمة
-          <span class="text-fusha-sun">FUSHA</span> كلمنا
-        </p>
-        <p class="mt-2 text-sm text-fusha-sageLight/80 font-semibold">بنجمع اللغة والأخطاء، ونستعبد المحطة القادمة</p>
+    <!-- weekly tasks + streak + announcements -->
+    <section class="grid lg:grid-cols-3 gap-5">
+      <!-- tasks -->
+      <div class="lg:col-span-2 rounded-3xl bg-white border border-stone-200 shadow-lg shadow-fusha-forest/10 p-6">
+        <div class="flex items-center justify-between gap-3 flex-wrap mb-4">
+          <h2 class="font-alexandria text-xl font-extrabold text-fusha-forest flex items-center gap-2">
+            <i data-lucide="list-checks" class="w-5 h-5 text-fusha-sage"></i> مهام الأسبوع
+          </h2>
+          <span class="inline-flex items-center gap-1.5 bg-fusha-sunLight border border-fusha-sun/40 text-fusha-sunDark text-xs font-black rounded-full px-3.5 py-1.5">
+            <i data-lucide="flame" class="w-4 h-4"></i> سلسلة مذاكرتك: 3 أيام متتالية
+          </span>
+        </div>
+        <ul class="space-y-2.5">
+          <li class="flex items-center gap-3 rounded-xl bg-fusha-sageLight border border-transparent px-4 py-3">
+            <span class="w-6 h-6 rounded-lg bg-fusha-sage text-white flex items-center justify-center shrink-0"><i data-lucide="check" class="w-4 h-4"></i></span>
+            <span class="flex-1 text-sm font-bold text-fusha-oliveDark line-through decoration-fusha-sage/60">حل 10 مسائل من بنك النحو</span>
+            <span class="text-[10px] font-black text-fusha-sage">تم ✓</span>
+          </li>
+          <li class="flex items-center gap-3 rounded-xl border border-stone-200 px-4 py-3 hover:border-fusha-sage transition-colors">
+            <span class="w-6 h-6 rounded-lg border-2 border-fusha-khaki shrink-0"></span>
+            <span class="flex-1 text-sm font-bold text-fusha-forest">كمّل محاضرة «كان وأخواتها»</span>
+            <span class="text-[10px] font-black text-fusha-oliveDark">اليوم</span>
+          </li>
+          <li class="flex items-center gap-3 rounded-xl border border-stone-200 px-4 py-3 hover:border-fusha-sage transition-colors">
+            <span class="w-6 h-6 rounded-lg border-2 border-fusha-khaki shrink-0"></span>
+            <span class="flex-1 text-sm font-bold text-fusha-forest">شارك في التحدي الأسبوعي</span>
+            <span class="text-[10px] font-black text-fusha-oliveDark">قبل الخميس</span>
+          </li>
+          <li class="flex items-center gap-3 rounded-xl border border-stone-200 px-4 py-3 hover:border-fusha-sage transition-colors">
+            <span class="w-6 h-6 rounded-lg border-2 border-fusha-khaki shrink-0"></span>
+            <span class="flex-1 text-sm font-bold text-fusha-forest">راجع كشكول الأخطاء (5 مسائل)</span>
+            <a href="mistakes.html" class="text-[10px] font-black text-fusha-sunDark hover:underline">افتح الكشكول ←</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- announcements -->
+      <div class="rounded-3xl bg-fusha-forest text-white p-6 relative overflow-hidden shadow-xl shadow-fusha-forest/25">
+        <div class="absolute -top-10 -left-10 w-36 h-36 rounded-full bg-fusha-sun/15 blur-2xl"></div>
+        <h2 class="font-alexandria text-xl font-extrabold flex items-center gap-2 relative">
+          <i data-lucide="megaphone" class="w-5 h-5 text-fusha-sun"></i> إعلانات أ. أشرف
+        </h2>
+        <ul class="mt-5 space-y-4 relative">
+          <li class="flex gap-3">
+            <span class="mt-1.5 w-2 h-2 rounded-full bg-fusha-sun shrink-0"></span>
+            <div>
+              <p class="text-sm font-extrabold">مسابقة البلاغة الكبرى</p>
+              <p class="text-xs text-fusha-sageLight/75 font-semibold mt-0.5">الجمعة الجاية 8م — سجل مكانك في التحدي</p>
+            </div>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-1.5 w-2 h-2 rounded-full bg-fusha-sun shrink-0"></span>
+            <div>
+              <p class="text-sm font-extrabold">بث مباشر: مراجعة النحو</p>
+              <p class="text-xs text-fusha-sageLight/75 font-semibold mt-0.5">الخميس 8 مساءً على قناة اليوتيوب</p>
+            </div>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-1.5 w-2 h-2 rounded-full bg-fusha-sun shrink-0"></span>
+            <div>
+              <p class="text-sm font-extrabold">خصم 20% على كروت الشحن</p>
+              <p class="text-xs text-fusha-sageLight/75 font-semibold mt-0.5">لأوائل لوحة الشرف هذا الأسبوع</p>
+            </div>
+          </li>
+        </ul>
+        <a href="chats.html" class="mt-5 inline-flex items-center gap-2 text-xs font-black text-fusha-sun hover:text-fusha-sunHover transition-colors">كل الإعلانات في مجموعة الطلاب <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i></a>
       </div>
     </section>
 
