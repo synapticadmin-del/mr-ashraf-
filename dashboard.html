@@ -82,38 +82,36 @@
 
     <!-- weekly tasks + streak + announcements -->
     <section class="grid lg:grid-cols-3 gap-5">
-      <!-- tasks -->
+      <!-- tasks (student-managed) -->
       <div class="lg:col-span-2 rounded-3xl bg-white border border-stone-200 shadow-lg shadow-fusha-forest/10 p-6">
         <div class="flex items-center justify-between gap-3 flex-wrap mb-4">
           <h2 class="font-alexandria text-xl font-extrabold text-fusha-forest flex items-center gap-2">
             <i data-lucide="list-checks" class="w-5 h-5 text-fusha-sage"></i> مهام الأسبوع
           </h2>
           <span class="inline-flex items-center gap-1.5 bg-fusha-sunLight border border-fusha-sun/40 text-fusha-sunDark text-xs font-black rounded-full px-3.5 py-1.5">
-            <i data-lucide="flame" class="w-4 h-4"></i> سلسلة مذاكرتك: 3 أيام متتالية
+            <i data-lucide="flame" class="w-4 h-4"></i> سلسلة مذاكرتك: <span id="streak-count">3</span> أيام متتالية
           </span>
         </div>
-        <ul class="space-y-2.5">
-          <li class="flex items-center gap-3 rounded-xl bg-fusha-sageLight border border-transparent px-4 py-3">
-            <span class="w-6 h-6 rounded-lg bg-fusha-sage text-white flex items-center justify-center shrink-0"><i data-lucide="check" class="w-4 h-4"></i></span>
-            <span class="flex-1 text-sm font-bold text-fusha-oliveDark line-through decoration-fusha-sage/60">حل 10 مسائل من بنك النحو</span>
-            <span class="text-[10px] font-black text-fusha-sage">تم ✓</span>
-          </li>
-          <li class="flex items-center gap-3 rounded-xl border border-stone-200 px-4 py-3 hover:border-fusha-sage transition-colors">
-            <span class="w-6 h-6 rounded-lg border-2 border-fusha-khaki shrink-0"></span>
-            <span class="flex-1 text-sm font-bold text-fusha-forest">كمّل محاضرة «كان وأخواتها»</span>
-            <span class="text-[10px] font-black text-fusha-oliveDark">اليوم</span>
-          </li>
-          <li class="flex items-center gap-3 rounded-xl border border-stone-200 px-4 py-3 hover:border-fusha-sage transition-colors">
-            <span class="w-6 h-6 rounded-lg border-2 border-fusha-khaki shrink-0"></span>
-            <span class="flex-1 text-sm font-bold text-fusha-forest">شارك في التحدي الأسبوعي</span>
-            <span class="text-[10px] font-black text-fusha-oliveDark">قبل الخميس</span>
-          </li>
-          <li class="flex items-center gap-3 rounded-xl border border-stone-200 px-4 py-3 hover:border-fusha-sage transition-colors">
-            <span class="w-6 h-6 rounded-lg border-2 border-fusha-khaki shrink-0"></span>
-            <span class="flex-1 text-sm font-bold text-fusha-forest">راجع كشكول الأخطاء (5 مسائل)</span>
-            <a href="mistakes.html" class="text-[10px] font-black text-fusha-sunDark hover:underline">افتح الكشكول ←</a>
-          </li>
-        </ul>
+
+        <div class="flex gap-2 mb-4">
+          <input id="task-input" type="text" maxlength="120"
+            class="flex-1 min-w-0 rounded-xl border-2 border-stone-200 bg-fusha-stone px-4 py-3 text-sm font-bold text-fusha-forest placeholder:text-fusha-oliveDark/60 focus:border-fusha-sage focus:outline-none transition-colors"
+            placeholder="اكتب مهمتك هنا واضغط Enter أو زرار الإضافة…" />
+          <button id="task-add" class="shrink-0 w-12 rounded-xl bg-fusha-forest text-fusha-sun flex items-center justify-center hover:bg-fusha-forestLight transition-colors shadow-md" aria-label="إضافة مهمة">
+            <i data-lucide="plus" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <ul id="tasks-list" class="space-y-2.5"></ul>
+
+        <div id="tasks-empty" class="rounded-2xl border-2 border-dashed border-fusha-khaki/70 bg-fusha-stone/60 px-5 py-8 text-center">
+          <i data-lucide="list-plus" class="w-9 h-9 text-fusha-sage mx-auto mb-3"></i>
+          <p class="text-sm font-extrabold text-fusha-forest">قايمة مهامك فاضية لسه</p>
+          <p class="mt-1.5 text-xs font-semibold text-fusha-oliveDark leading-relaxed">
+            اكتب مهمة في الخانة فوق واضغط Enter عشان تضيفها —<br />
+            اضغط على المهمة عشان تشطبها كـ«تمّت»، واضغط ✕ عشان تمسحها.
+          </p>
+        </div>
       </div>
 
       <!-- announcements -->
@@ -241,6 +239,53 @@
   <script>
     FUSHA.requireAuth();
     FUSHA.mount('dashboard');
+
+    // ── weekly tasks (student-managed, persisted) ──
+    const TASKS_KEY = 'fusha_tasks';
+    const listEl = document.getElementById('tasks-list');
+    const emptyEl = document.getElementById('tasks-empty');
+    const input = document.getElementById('task-input');
+    const getTasks = () => { try { return JSON.parse(localStorage.getItem(TASKS_KEY) || '[]'); } catch { return []; } };
+    const saveTasks = (t) => localStorage.setItem(TASKS_KEY, JSON.stringify(t));
+
+    function renderTasks() {
+      const tasks = getTasks();
+      emptyEl.style.display = tasks.length ? 'none' : '';
+      listEl.innerHTML = tasks.map(t => `
+        <li class="flex items-center gap-3 rounded-xl border px-4 py-3 transition-colors ${t.done ? 'bg-fusha-sageLight border-transparent' : 'border-stone-200 hover:border-fusha-sage'}">
+          <button data-act="toggle" data-id="${t.id}" class="w-6 h-6 rounded-lg shrink-0 flex items-center justify-center ${t.done ? 'bg-fusha-sage text-white' : 'border-2 border-fusha-khaki'}" title="${t.done ? 'تراجع' : 'تمّت'}">
+            ${t.done ? '<i data-lucide="check" class="w-4 h-4"></i>' : ''}
+          </button>
+          <button data-act="toggle" data-id="${t.id}" class="flex-1 text-right text-sm font-bold ${t.done ? 'text-fusha-oliveDark line-through decoration-fusha-sage/60' : 'text-fusha-forest'}">${FUSHA.esc(t.text)}</button>
+          <button data-act="del" data-id="${t.id}" class="w-7 h-7 rounded-lg text-fusha-oliveDark/60 hover:text-rose-500 hover:bg-rose-50 flex items-center justify-center transition-colors" title="مسح المهمة">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </li>`).join('');
+      lucide.createIcons();
+    }
+    function addTask() {
+      const v = input.value.trim();
+      if (!v) return;
+      const t = getTasks();
+      t.unshift({ id: Date.now(), text: v, done: false });
+      saveTasks(t);
+      input.value = '';
+      input.focus();
+      renderTasks();
+    }
+    document.getElementById('task-add').addEventListener('click', addTask);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') addTask(); });
+    listEl.addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-act]');
+      if (!b) return;
+      const id = +b.dataset.id;
+      let t = getTasks();
+      if (b.dataset.act === 'del') t = t.filter(x => x.id !== id);
+      else t = t.map(x => x.id === id ? { ...x, done: !x.done } : x);
+      saveTasks(t);
+      renderTasks();
+    });
+    renderTasks();
   </script>
 </body>
 </html>
