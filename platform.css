@@ -17,6 +17,52 @@ html, body {
   }
 }
 
+/* ═══ dark mode (class-based on <html>) ═══ */
+.icon-moon { display: none; }
+.dark .icon-sun { display: none; }
+.dark .icon-moon { display: inline-flex; }
+
+.dark body, .dark .bg-fusha-cream, .dark .bg-fusha-stone { background-color: #0D1D18; color: #E8E4DA; }
+.dark .bg-white, .dark .bg-white\/80, .dark .bg-white\/70, .dark .bg-white\/60,
+.dark .bg-stone-50, .dark .bg-stone-100 { background-color: #16302A; }
+.dark .bg-stone-200, .dark .bg-fusha-sageLight, .dark .bg-fusha-sunLight,
+.dark .bg-fusha-khakiLight { background-color: #1E3E34; }
+.dark .bg-fusha-sage\/30, .dark .bg-fusha-khaki\/50 { background-color: #24463A; }
+
+.dark .text-fusha-forest, .dark .text-fusha-forestDark,
+.dark .text-space-900, .dark .text-slate-800, .dark .text-slate-700 { color: #E8E4DA; }
+.dark .text-fusha-oliveDark, .dark .text-fusha-sage, .dark .text-fusha-sunDark,
+.dark .text-slate-600, .dark .text-slate-500, .dark .text-slate-400 { color: #B7B19B; }
+.dark .text-fusha-forest\/45, .dark .text-fusha-forest\/35 { color: rgba(232,228,218,.45); }
+.dark .text-royal-blue { color: #EAA72E; }
+
+.dark .border-stone-100, .dark .border-stone-200, .dark .border-stone-300,
+.dark .border-fusha-khaki, .dark .border-fusha-khaki\/50, .dark .border-fusha-khaki\/60,
+.dark .border-fusha-khaki\/70 { border-color: #2C5346; }
+.dark .border-fusha-sun\/40 { border-color: rgba(234,167,46,.5); }
+
+.dark header.sticky { background-color: rgba(13,29,24,.92); }
+.dark .leaf-bg {
+  background-color: #16302A;
+  background-image:
+    radial-gradient(ellipse 340px 200px at 8% 15%, rgba(95,122,97,0.22), transparent 60%),
+    radial-gradient(ellipse 300px 180px at 92% 85%, rgba(139,149,101,0.20), transparent 60%),
+    radial-gradient(ellipse 220px 140px at 15% 90%, rgba(95,122,97,0.16), transparent 60%);
+}
+
+.dark input, .dark textarea, .dark select {
+  background-color: #16302A !important;
+  color: #E8E4DA !important;
+  border-color: #2C5346 !important;
+}
+.dark ::placeholder { color: #8B9565 !important; }
+
+.dark .option-card { background-color: #16302A; border-color: #2C5346; }
+.dark .option-card.selected { background-color: rgba(234,167,46,.14) !important; }
+.dark .shadow-lg, .dark .shadow-xl, .dark .shadow-2xl, .dark .shadow-md, .dark .shadow-sm {
+  box-shadow: 0 12px 30px -10px rgba(0,0,0,.55) !important;
+}
+
 /* collapsible right sidebar */
 #sidebar { transition: width .3s cubic-bezier(.2, 0, 0, 1); }
 #sidebar .nav-label {

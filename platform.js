@@ -4,7 +4,16 @@
    common-mistakes, build-exam, profile, wallet
    ========================================================= */
 
+/* theme: apply persisted dark mode before first paint */
+try {
+  const _t = localStorage.getItem('fusha_theme');
+  if (_t === 'dark' || (!_t && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark');
+  }
+} catch (e) {}
+
 tailwind.config = {
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -106,10 +115,10 @@ window.FUSHA = (function () {
     }).join('');
     return `
     <aside id="sidebar" class="fixed top-0 right-0 h-screen w-[4.5rem] z-50 bg-fusha-forest rounded-l-[1.5rem] flex flex-col items-center py-4 gap-1.5 shadow-2xl shadow-fusha-forest/30">
-      <a href="dashboard.html" class="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center shrink-0 overflow-hidden" title="فُصْحَى">
-        <img src="assets/logo.jpg?v=5" alt="فُصْحَى" class="w-8 h-8 object-contain" />
+      <a href="dashboard.html" class="w-11 h-11 rounded-2xl border border-white/15 shrink-0 overflow-hidden block" title="فُصْحَى">
+        <img src="assets/logo.jpg?v=5" alt="فُصْحَى" class="w-full h-full object-cover" />
       </a>
-      <button id="side-toggle" class="w-7 h-7 rounded-full bg-fusha-sun text-fusha-forestDark flex items-center justify-center shadow-md hover:bg-fusha-sunHover transition-colors shrink-0" aria-label="طي/فتح القائمة">
+      <button id="side-toggle" class="absolute -left-3 top-[5.5rem] w-7 h-7 rounded-full bg-fusha-sun text-fusha-forestDark flex items-center justify-center shadow-lg hover:bg-fusha-sunHover transition-colors z-10" aria-label="طي/فتح القائمة">
         <i data-lucide="chevron-left" class="collapse-arrow w-4 h-4 transition-transform duration-300"></i>
       </button>
       <nav class="mt-2 flex flex-col items-stretch gap-1 w-full px-2.5 overflow-y-auto platform-scroll">${items}</nav>
@@ -123,9 +132,10 @@ window.FUSHA = (function () {
     const u = getUser();
     return `
     <header class="sticky top-0 z-40 bg-fusha-cream/90 backdrop-blur-md px-4 sm:px-7 py-4 flex items-center gap-3">
-      <a href="challenge.html" class="w-10 h-10 rounded-full bg-fusha-sun/15 border border-fusha-sun/40 flex items-center justify-center hover:bg-fusha-sun/25 transition-colors" title="إضاءة اليوم">
-        <i data-lucide="sun" class="w-5 h-5 text-fusha-sunDark"></i>
-      </a>
+      <button id="themeToggle" class="w-10 h-10 rounded-full bg-fusha-sun/15 border border-fusha-sun/40 flex items-center justify-center hover:bg-fusha-sun/25 transition-colors" title="الوضع الليلي">
+        <i data-lucide="sun" class="icon-sun w-5 h-5 text-fusha-sunDark"></i>
+        <i data-lucide="moon" class="icon-moon w-5 h-5 text-fusha-sun"></i>
+      </button>
       <button class="relative w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center hover:border-fusha-sage transition-colors" title="الإشعارات">
         <i data-lucide="bell" class="w-5 h-5 text-fusha-forest"></i>
         <span class="absolute -top-1 -left-1 min-w-5 h-5 px-1 rounded-full bg-fusha-forest text-white text-[10px] font-black flex items-center justify-center">0</span>
@@ -219,6 +229,13 @@ window.FUSHA = (function () {
         sb.classList.toggle('w-60', open);
         pg.classList.toggle('mr-[4.5rem]', !open);
         pg.classList.toggle('mr-60', open);
+      });
+    }
+    const tt = document.getElementById('themeToggle');
+    if (tt) {
+      tt.addEventListener('click', () => {
+        const dark = document.documentElement.classList.toggle('dark');
+        try { localStorage.setItem('fusha_theme', dark ? 'dark' : 'light'); } catch (e) {}
       });
     }
     if (window.lucide) window.lucide.createIcons();
