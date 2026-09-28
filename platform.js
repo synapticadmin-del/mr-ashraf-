@@ -118,7 +118,7 @@ window.FUSHA = (function () {
       <a href="dashboard.html" class="w-11 h-11 rounded-2xl border border-white/15 shrink-0 overflow-hidden block" title="فُصْحَى">
         <img src="assets/logo.jpg?v=5" alt="فُصْحَى" class="w-full h-full object-cover" />
       </a>
-      <button id="side-toggle" class="absolute -left-3 top-[5.5rem] w-7 h-7 rounded-full bg-fusha-sun text-fusha-forestDark flex items-center justify-center shadow-lg hover:bg-fusha-sunHover transition-colors z-10" aria-label="طي/فتح القائمة">
+      <button id="side-toggle" class="w-8 h-8 rounded-full bg-white/10 border border-white/15 text-fusha-sun flex items-center justify-center hover:bg-fusha-sun hover:text-fusha-forestDark transition-colors shrink-0" aria-label="طي/فتح القائمة">
         <i data-lucide="chevron-left" class="collapse-arrow w-4 h-4 transition-transform duration-300"></i>
       </button>
       <nav class="mt-2 flex flex-col items-stretch gap-1 w-full px-2.5 overflow-y-auto platform-scroll">${items}</nav>
