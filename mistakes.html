@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>كشكول الأخطاء | فُصْحَى — أ. أشرف سليم</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg?v=4" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png?v=4" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=4" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;700;800;900&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="platform.js?v=1"></script>
+  <link rel="stylesheet" href="platform.css?v=1" />
+</head>
+<body class="bg-fusha-cream text-slate-800 font-cairo antialiased min-h-screen flex flex-col selection:bg-neon-lime selection:text-space-950">
+
+  <div id="app-header"></div>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+
+    <div id="heroSlot"></div>
+
+    <!-- Stats -->
+    <section class="grid grid-cols-3 gap-3 sm:gap-4">
+      <div class="bg-white rounded-3xl border border-stone-200 shadow-sm p-4 sm:p-6 text-center space-y-1.5">
+        <div class="w-10 h-10 mx-auto rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center"><i data-lucide="bookmark-x" class="w-5 h-5"></i></div>
+        <p class="font-alexandria font-extrabold text-2xl sm:text-3xl text-space-900" id="stTotal">0</p>
+        <p class="text-[10px] sm:text-xs text-stone-500 font-bold">إجمالي الأخطاء</p>
+      </div>
+      <div class="bg-white rounded-3xl border border-stone-200 shadow-sm p-4 sm:p-6 text-center space-y-1.5">
+        <div class="w-10 h-10 mx-auto rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center"><i data-lucide="hourglass" class="w-5 h-5"></i></div>
+        <p class="font-alexandria font-extrabold text-2xl sm:text-3xl text-space-900" id="stPending">0</p>
+        <p class="text-[10px] sm:text-xs text-stone-500 font-bold">لسه محتاجة مراجعة</p>
+      </div>
+      <div class="bg-white rounded-3xl border border-stone-200 shadow-sm p-4 sm:p-6 text-center space-y-1.5">
+        <div class="w-10 h-10 mx-auto rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center"><i data-lucide="check-check" class="w-5 h-5"></i></div>
+        <p class="font-alexandria font-extrabold text-2xl sm:text-3xl text-space-900" id="stResolved">0</p>
+        <p class="text-[10px] sm:text-xs text-stone-500 font-bold">اتحلّت واتراجعت ✅</p>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2 bg-white p-1.5 rounded-2xl border border-stone-200 shadow-sm">
+        <button id="filterAll" class="px-4 py-2 rounded-xl text-xs font-black transition cursor-pointer bg-royal-blue text-white">الكل</button>
+        <button id="filterUn" class="px-4 py-2 rounded-xl text-xs font-black transition cursor-pointer text-slate-600 hover:text-space-900">غير محلولة</button>
+      </div>
+      <button id="clearAll" class="px-4 py-2.5 rounded-xl bg-white hover:bg-rose-50 text-rose-500 font-bold text-xs border border-stone-200 hover:border-rose-200 transition flex items-center gap-2 cursor-pointer">
+        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i><span>مسح الكل</span>
+      </button>
+    </div>
+
+    <div id="mistakesList" class="space-y-4"></div>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script>
+    FUSHA.mount('mistakes');
+    document.getElementById('heroSlot').outerHTML = FUSHA.hero('bookmark-x', 'كشكول الأخطاء', 'كل سؤال غلطت فيه بيتسجل هنا تلقائيًا — راجعه تاني وحدده «محلول» لما تتقنه 📝');
+    if (window.lucide) window.lucide.createIcons();
+
+    const esc = FUSHA.esc;
+    let showUnresolvedOnly = false;
+
+    // seed a couple of demo mistakes for first visit
+    if (!localStorage.getItem('fusha_mistakes_seeded')) {
+      const demo = [
+        { id: 'q3', question_text: '«العلمُ نورٌ» — نوع الصورة البيانية:', given_answer: 'استعارة مكنية', correct_answer: 'تشبيه بليغ', topic: 'بلاغة', created_at: new Date(Date.now() - 86400000).toISOString(), is_resolved: false },
+        { id: 'q7', question_text: '«ما زالَ المجتهدُ متفوقًا» — إعراب «متفوقًا»:', given_answer: 'حال', correct_answer: 'خبر ما زال منصوب', topic: 'نحو', created_at: new Date(Date.now() - 3600000).toISOString(), is_resolved: false },
+      ];
+      localStorage.setItem('fusha_mistakes', JSON.stringify(demo));
+      localStorage.setItem('fusha_mistakes_seeded', '1');
+    }
+
+    function fmt(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString('ar-EG', { day: 'numeric', month: 'long' }) + ' — ' + d.toLocaleTimeString('ar-EG', { hour: 'numeric', minute: '2-digit' });
+    }
+
+    function render() {
+      let list = FUSHA.getMistakes();
+      const total = list.length;
+      const resolved = list.filter(m => m.is_resolved).length;
+      document.getElementById('stTotal').textContent = total;
+      document.getElementById('stPending').textContent = total - resolved;
+      document.getElementById('stResolved').textContent = resolved;
+
+      if (showUnresolvedOnly) list = list.filter(m => !m.is_resolved);
+
+      const box = document.getElementById('mistakesList');
+      if (!list.length) {
+        box.innerHTML = `<div class="bg-white rounded-3xl border border-stone-200 p-12 text-center space-y-3">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-emerald-50 flex items-center justify-center"><i data-lucide="party-popper" class="w-8 h-8 text-emerald-500"></i></div>
+          <p class="font-alexandria font-black text-lg text-space-900">مفيش أخطاء هنا 🎉</p>
+          <p class="text-xs font-bold text-slate-500">حل من <a href="bank.html" class="text-royal-blue underline">بنك الأسئلة</a> وأي غلطة هتتسجل هنا تلقائيًا</p>
+        </div>`;
+      } else {
+        box.innerHTML = list.map(m => `
+        <article class="bg-white rounded-3xl border ${m.is_resolved ? 'border-emerald-200' : 'border-stone-200'} shadow-sm p-5 sm:p-6 space-y-3">
+          <div class="flex items-center justify-between gap-3 flex-wrap">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-lg bg-royal-blue/10 text-royal-blue text-[10px] font-black">${esc(m.topic || 'عام')}</span>
+              <span class="text-[10px] font-bold text-slate-400">${fmt(m.created_at)}</span>
+            </div>
+            <span class="px-2.5 py-1 rounded-lg text-[10px] font-black ${m.is_resolved ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-amber-50 text-amber-600 border border-amber-200'}">${m.is_resolved ? 'محلول ✅' : 'محتاج مراجعة'}</span>
+          </div>
+          <h3 class="font-alexandria font-black text-sm sm:text-base text-space-900 leading-relaxed">${esc(m.question_text)}</h3>
+          <div class="grid sm:grid-cols-2 gap-2.5">
+            <div class="rounded-2xl border border-rose-200 bg-rose-50/60 p-3.5">
+              <p class="text-[10px] font-black text-rose-500 mb-1">إجابتك ❌</p>
+              <p class="text-xs font-bold text-slate-700">${esc(m.given_answer)}</p>
+            </div>
+            <div class="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-3.5">
+              <p class="text-[10px] font-black text-emerald-600 mb-1">الإجابة الصحيحة ✅</p>
+              <p class="text-xs font-bold text-slate-700">${esc(m.correct_answer)}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 pt-1">
+            ${!m.is_resolved ? `<button class="resolve-btn px-4 py-2 rounded-xl bg-neon-lime hover:bg-neon-limeHover text-space-950 text-[11px] font-black transition cursor-pointer flex items-center gap-1.5" data-id="${esc(m.id)}"><i data-lucide="check" class="w-3.5 h-3.5"></i>علّمها محلولة</button>` : ''}
+            <button class="del-btn px-4 py-2 rounded-xl bg-stone-100 hover:bg-rose-50 hover:text-rose-500 text-slate-500 text-[11px] font-black transition cursor-pointer flex items-center gap-1.5" data-id="${esc(m.id)}"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i>احذف</button>
+          </div>
+        </article>`).join('');
+
+        box.querySelectorAll('.resolve-btn').forEach(b => b.addEventListener('click', () => {
+          const list = FUSHA.getMistakes().map(m => m.id === b.dataset.id ? { ...m, is_resolved: true } : m);
+          localStorage.setItem('fusha_mistakes', JSON.stringify(list));
+          FUSHA.toast('برافو! اتعلمت من الغلطة ✅');
+          render();
+        }));
+        box.querySelectorAll('.del-btn').forEach(b => b.addEventListener('click', () => {
+          const list = FUSHA.getMistakes().filter(m => m.id !== b.dataset.id);
+          localStorage.setItem('fusha_mistakes', JSON.stringify(list));
+          render();
+        }));
+      }
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function paintFilters() {
+      const on = 'px-4 py-2 rounded-xl text-xs font-black transition cursor-pointer bg-royal-blue text-white';
+      const off = 'px-4 py-2 rounded-xl text-xs font-black transition cursor-pointer text-slate-600 hover:text-space-900';
+      document.getElementById('filterAll').className = showUnresolvedOnly ? off : on;
+      document.getElementById('filterUn').className = showUnresolvedOnly ? on : off;
+    }
+    document.getElementById('filterAll').addEventListener('click', () => { showUnresolvedOnly = false; paintFilters(); render(); });
+    document.getElementById('filterUn').addEventListener('click', () => { showUnresolvedOnly = true; paintFilters(); render(); });
+    document.getElementById('clearAll').addEventListener('click', () => {
+      localStorage.setItem('fusha_mistakes', '[]');
+      FUSHA.toast('اتمسح الكشكول كله', false);
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>

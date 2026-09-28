@@ -1,0 +1,53 @@
+/* FUSHA PLATFORM — shared inner-pages styles (complements Tailwind CDN) */
+
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+.diagonal-cut-top {
+  clip-path: polygon(0 4.5vw, 100% 0, 100% 100%, 0 100%);
+  margin-top: -4.5vw;
+}
+@media (max-width: 768px) {
+  .diagonal-cut-top {
+    clip-path: polygon(0 25px, 100% 0, 100% 100%, 0 100%);
+    margin-top: -25px;
+  }
+}
+
+/* quiz option cards */
+.option-card { transition: all 180ms cubic-bezier(0.2, 0, 0, 1); }
+.option-card:hover { transform: translateY(-2px); }
+.option-card.selected {
+  border-color: #AADB1E !important;
+  background-color: rgba(170, 219, 30, 0.08) !important;
+  box-shadow: 0 0 15px rgba(170, 219, 30, 0.18);
+}
+.option-card.correct-highlight {
+  border-color: #10B981 !important;
+  background-color: rgba(16, 185, 129, 0.12) !important;
+}
+.option-card.wrong-highlight {
+  border-color: #EF4444 !important;
+  background-color: rgba(239, 68, 68, 0.10) !important;
+}
+
+/* horizontal swipeable pill rails */
+.touch-swipe-rail {
+  display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.25rem;
+  scroll-snap-type: x mandatory;
+}
+.touch-swipe-pill {
+  scroll-snap-align: start; flex-shrink: 0;
+  padding: 0.5rem 1rem; border-radius: 0.9rem;
+  font-size: 0.75rem; font-weight: 800;
+}
+
+/* chat voice bars animation */
+@keyframes voiceBar { 0%,100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
+
+/* upload dropzone */
+.dropzone { transition: all .2s ease; }
+.dropzone:hover { border-color: #AADB1E; background: #F0F9D6; }

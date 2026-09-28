@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تحدي الأصدقاء 1v1 | فُصْحَى — أ. أشرف سليم</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg?v=4" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png?v=4" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=4" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;700;800;900&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="platform.js?v=1"></script>
+  <link rel="stylesheet" href="platform.css?v=1" />
+</head>
+<body class="bg-fusha-cream text-slate-800 font-cairo antialiased min-h-screen flex flex-col selection:bg-neon-lime selection:text-space-950">
+
+  <div id="app-header"></div>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+
+    <div id="heroSlot"></div>
+
+    <div id="viewTabs" class="grid grid-cols-3 gap-2 bg-white p-1.5 rounded-2xl border border-stone-200 shadow-sm">
+      <button data-tab="leaderboard" class="tab-btn px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-1.5">
+        <i data-lucide="trophy" class="w-4 h-4"></i><span>المتصدرون</span>
+      </button>
+      <button data-tab="incoming" class="tab-btn px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-1.5">
+        <i data-lucide="inbox" class="w-4 h-4"></i><span>وصلني <span id="incomingBadge" class="px-1.5 py-0.5 rounded-md bg-rose-500 text-white text-[10px]">1</span></span>
+      </button>
+      <button data-tab="outgoing" class="tab-btn px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-1.5">
+        <i data-lucide="send" class="w-4 h-4"></i><span>تحدياتي</span>
+      </button>
+    </div>
+
+    <div id="tabContent" class="space-y-4"></div>
+  </main>
+
+  <!-- Create challenge modal -->
+  <div id="createModal" class="hidden fixed inset-0 z-[80] bg-black/70 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-5 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <h3 class="font-alexandria font-black text-lg text-space-900 flex items-center gap-2"><i data-lucide="swords" class="w-5 h-5 text-royal-blue"></i> تحدي جديد</h3>
+        <button id="closeCreateModal" class="p-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-slate-600 cursor-pointer"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div>
+        <label class="text-xs font-bold text-slate-600 block mb-2">عدد الأسئلة</label>
+        <div id="qcRow" class="flex gap-2"></div>
+      </div>
+      <div>
+        <label class="text-xs font-bold text-slate-600 block mb-2">اختر منافسك (أو ابحث بالاسم)</label>
+        <input id="oppSearch" type="text" placeholder="ابحث بالاسم أو كود الطالب..." class="w-full px-4 py-3 rounded-2xl bg-fusha-cream border border-stone-200 text-sm text-space-900 placeholder:text-slate-400 focus:outline-none focus:border-neon-lime transition" />
+        <div id="oppList" class="mt-3 space-y-2 max-h-64 overflow-y-auto"></div>
+      </div>
+      <button id="sendChallengeBtn" class="w-full py-3.5 rounded-2xl bg-royal-blue hover:bg-royal-blue-hover text-white font-alexandria font-black text-sm shadow-md transition cursor-pointer disabled:opacity-40" disabled>إرسال التحدي ⚔️</button>
+    </div>
+  </div>
+
+  <div id="app-footer"></div>
+
+  <script>
+    FUSHA.mount('challenge');
+    document.getElementById('heroSlot').outerHTML = FUSHA.hero('swords', 'تحدي الأصدقاء', 'تحدَّ زمايلك 1v1 في مسائل اللغة العربية — أعلى مجموع يكسب نقاط التحدي ⚡',
+      `<button id="newChallengeBtn" class="px-6 py-3.5 rounded-2xl bg-neon-lime hover:bg-neon-limeHover text-space-950 font-alexandria font-black text-sm shadow-lg shadow-neon-lime/30 transition flex items-center justify-center gap-2 cursor-pointer transform hover:-translate-y-0.5 shrink-0"><i data-lucide="plus" class="w-5 h-5"></i><span>تحدي جديد</span></button>`);
+    if (window.lucide) window.lucide.createIcons();
+
+    const esc = FUSHA.esc;
+    const u = FUSHA.getUser() || { name: 'إبراهيم ممدوح' };
+
+    const LEADERS = [
+      { name: 'طالب اختبار', points: 10000 },
+      { name: u.name, points: 8666, me: true },
+      { name: 'طالب اختبار', points: 9001 },
+      { name: 'طالب اختبار', points: 9998 },
+      { name: 'طالب اختبار', points: 1 },
+      { name: 'طالب اختبار', points: 10 },
+      { name: 'طالب اختبار', points: 100 },
+      { name: 'طالب اختبار', points: 1000 },
+    ].sort((a, b) => b.points - a.points);
+
+    const INCOMING = [
+      { id: 'c1', from: 'طالب اختبار', questions: 5, ago: 'منذ ساعتين' },
+    ];
+    const OUTGOING = [
+      { id: 'c2', to: 'طالب اختبار', questions: 10, status: 'بانتظار القبول', ago: 'أمس' },
+      { id: 'c3', to: 'طالب اختبار', questions: 5, status: 'خسرت ٣-٥', ago: 'منذ ٣ أيام', done: true },
+    ];
+
+    let activeTab = 'leaderboard';
+    const content = document.getElementById('tabContent');
+    const tabs = document.querySelectorAll('.tab-btn');
+    const onCls = 'bg-royal-blue text-white shadow-sm';
+    const offCls = 'text-slate-600 hover:text-space-900 hover:bg-stone-100';
+    function paintTabs() {
+      tabs.forEach(b => {
+        const isOn = b.dataset.tab === activeTab;
+        b.className = 'tab-btn px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center justify-center gap-1.5 ' + (isOn ? onCls : offCls);
+      });
+    }
+
+    const medal = (rank) => rank === 0 ? { ring: 'ring-amber-400', bg: 'bg-gradient-to-b from-amber-300 to-amber-500', icon: 'crown', iconCls: 'text-amber-300', label: 'الأول' }
+      : rank === 1 ? { ring: 'ring-slate-300', bg: 'bg-gradient-to-b from-slate-200 to-slate-400', icon: 'medal', iconCls: 'text-slate-400', label: 'الثاني' }
+      : { ring: 'ring-amber-600', bg: 'bg-gradient-to-b from-amber-600 to-amber-800', icon: 'medal', iconCls: 'text-amber-700', label: 'الثالث' };
+
+    function renderLeaderboard() {
+      const top3 = LEADERS.slice(0, 3);
+      const rest = LEADERS.slice(3);
+      const podiumOrder = [1, 0, 2];
+      content.innerHTML = `
+      <div class="bg-white rounded-3xl border border-stone-200 shadow-sm p-5 sm:p-8">
+        <div class="grid grid-cols-3 gap-3 sm:gap-6 items-end max-w-2xl mx-auto">
+          ${podiumOrder.map(i => {
+            const p = top3[i]; const m = medal(i);
+            return `
+            <div class="flex flex-col items-center gap-2 text-center ${i === 0 ? 'pb-4' : ''}">
+              <div class="relative">
+                <div class="${i === 0 ? 'w-20 h-20 sm:w-24 sm:h-24' : 'w-16 h-16 sm:w-20 sm:h-20'} rounded-full ${m.bg} ring-4 ${m.ring} flex items-center justify-center shadow-lg">
+                  <i data-lucide="user" class="${i === 0 ? 'w-9 h-9' : 'w-7 h-7'} text-white/90"></i>
+                </div>
+                <span class="absolute -bottom-1 start-1/2 -translate-x-1/2 w-7 h-7 rounded-full bg-space-900 text-neon-lime text-[11px] font-black flex items-center justify-center border-2 border-white">${i + 1}</span>
+              </div>
+              <div>
+                <p class="text-xs sm:text-sm font-black text-space-900">${esc(p.name)}${p.me ? ' <span class="text-royal-blue">(أنت)</span>' : ''}</p>
+                <p class="text-[10px] sm:text-xs font-bold text-slate-500" dir="ltr">${p.points.toLocaleString('en')} <span class="font-cairo">نقطة</span></p>
+              </div>
+              <button class="challenge-btn px-4 py-1.5 rounded-lg bg-royal-blue hover:bg-royal-blue-hover text-white text-[10px] font-black transition cursor-pointer" data-name="${esc(p.name)}">تحدّيه</button>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+      <div class="bg-white rounded-3xl border border-stone-200 shadow-sm divide-y divide-stone-100 overflow-hidden">
+        ${rest.map((p, i) => `
+        <div class="flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-3.5 ${p.me ? 'bg-neon-limeLight/60' : ''}">
+          <span class="w-8 text-center font-alexandria font-black text-slate-400 text-sm">${i + 4}</span>
+          <span class="w-9 h-9 rounded-full bg-stone-100 border border-stone-200 flex items-center justify-center shrink-0"><i data-lucide="user" class="w-4 h-4 text-slate-400"></i></span>
+          <div class="flex-1 min-w-0">
+            <p class="text-xs sm:text-sm font-black text-space-900 truncate">${esc(p.name)}${p.me ? ' <span class="text-royal-blue">(أنت)</span>' : ''}</p>
+            <p class="text-[10px] font-bold text-slate-400" dir="ltr">${p.points.toLocaleString('en')} نقطة</p>
+          </div>
+          <button class="challenge-btn px-4 py-2 rounded-xl bg-royal-blue hover:bg-royal-blue-hover text-white text-[10px] font-black transition cursor-pointer" data-name="${esc(p.name)}">تحدّيه</button>
+        </div>`).join('')}
+      </div>`;
+      bindChallengeBtns();
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function renderIncoming() {
+      content.innerHTML = INCOMING.length ? INCOMING.map(c => `
+      <div class="bg-white rounded-3xl border border-stone-200 shadow-sm p-5 flex items-center gap-4">
+        <span class="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center shrink-0"><i data-lucide="swords" class="w-5 h-5 text-rose-500"></i></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-black text-space-900">${esc(c.from)} بيتحداك ⚔️</p>
+          <p class="text-[11px] font-bold text-slate-500 mt-0.5">${c.questions} أسئلة • ${esc(c.ago)}</p>
+        </div>
+        <div class="flex gap-2 shrink-0">
+          <button class="px-4 py-2 rounded-xl bg-neon-lime hover:bg-neon-limeHover text-space-950 text-[11px] font-black transition cursor-pointer" onclick="FUSHA.toast('التحدي اتقبل! العد التنازلي هيبدأ لما المنصة تتربط بالسيرفر')">قبول</button>
+          <button class="px-4 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-slate-600 text-[11px] font-black transition cursor-pointer" onclick="FUSHA.toast('اترفض التحدي', false)">رفض</button>
+        </div>
+      </div>`).join('') : emptyTab('inbox', 'مفيش تحديات واصلة');
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function renderOutgoing() {
+      content.innerHTML = OUTGOING.map(c => `
+      <div class="bg-white rounded-3xl border border-stone-200 shadow-sm p-5 flex items-center gap-4">
+        <span class="w-12 h-12 rounded-2xl bg-royal-blue/10 border border-royal-blue/20 flex items-center justify-center shrink-0"><i data-lucide="send" class="w-5 h-5 text-royal-blue"></i></span>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-black text-space-900">تحديت ${esc(c.to)}</p>
+          <p class="text-[11px] font-bold text-slate-500 mt-0.5">${c.questions} أسئلة • ${esc(c.ago)}</p>
+        </div>
+        <span class="px-3 py-1.5 rounded-lg text-[10px] font-black ${c.done ? 'bg-stone-100 text-slate-600' : 'bg-amber-50 text-amber-600 border border-amber-200'}">${esc(c.status)}</span>
+      </div>`).join('');
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function emptyTab(icon, msg) {
+      return `<div class="bg-white rounded-3xl border border-stone-200 p-12 text-center space-y-3">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-stone-100 flex items-center justify-center"><i data-lucide="${icon}" class="w-8 h-8 text-slate-400"></i></div>
+        <p class="font-alexandria font-black text-lg text-space-900">${msg}</p>
+      </div>`;
+    }
+
+    function renderTab() {
+      if (activeTab === 'leaderboard') renderLeaderboard();
+      else if (activeTab === 'incoming') renderIncoming();
+      else renderOutgoing();
+    }
+    tabs.forEach(b => b.addEventListener('click', () => { activeTab = b.dataset.tab; paintTabs(); renderTab(); }));
+
+    // create modal
+    let pickedOpponent = null, questionCount = 5;
+    const QC = [5, 10, 15, 20];
+    function paintQc() {
+      document.getElementById('qcRow').innerHTML = QC.map(n => `
+        <button data-qc="${n}" class="qc-btn px-4 py-2.5 rounded-xl border text-xs font-black transition cursor-pointer ${n === questionCount ? 'bg-royal-blue text-white border-royal-blue' : 'bg-white text-slate-600 border-stone-200 hover:border-royal-blue'}">${n} أسئلة</button>`).join('');
+      document.querySelectorAll('.qc-btn').forEach(b => b.addEventListener('click', () => { questionCount = Number(b.dataset.qc); paintQc(); }));
+    }
+    function paintOpps(filter = '') {
+      const list = LEADERS.filter(p => !p.me && p.name.includes(filter));
+      document.getElementById('oppList').innerHTML = list.map(p => `
+        <button class="opp-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl border-2 transition cursor-pointer text-start ${pickedOpponent === p.name ? 'border-neon-lime bg-neon-limeLight' : 'border-stone-200 hover:border-royal-blue/40'}" data-name="${esc(p.name)}">
+          <span class="w-9 h-9 rounded-full bg-stone-100 flex items-center justify-center"><i data-lucide="user" class="w-4 h-4 text-slate-400"></i></span>
+          <span class="flex-1 text-xs font-black text-space-900">${esc(p.name)}</span>
+          <span class="text-[10px] font-bold text-slate-400">${p.points} نقطة</span>
+        </button>`).join('') || `<p class="text-xs text-slate-400 font-bold text-center py-4">مفيش طلاب بالاسم ده</p>`;
+      document.querySelectorAll('.opp-btn').forEach(b => b.addEventListener('click', () => { pickedOpponent = b.dataset.name; document.getElementById('sendChallengeBtn').disabled = false; paintOpps(filter); }));
+      if (window.lucide) window.lucide.createIcons();
+    }
+    const modal = document.getElementById('createModal');
+    function openModal(name) {
+      pickedOpponent = name || null;
+      document.getElementById('sendChallengeBtn').disabled = !pickedOpponent;
+      paintQc(); paintOpps();
+      modal.classList.remove('hidden'); modal.classList.add('flex');
+      if (window.lucide) window.lucide.createIcons();
+    }
+    function closeModal() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+    document.getElementById('newChallengeBtn').addEventListener('click', () => openModal());
+    document.getElementById('closeCreateModal').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.getElementById('oppSearch').addEventListener('input', (e) => paintOpps(e.target.value.trim()));
+    document.getElementById('sendChallengeBtn').addEventListener('click', () => {
+      closeModal();
+      FUSHA.toast(`التحدي اتبعت لـ ${pickedOpponent} — ${questionCount} أسئلة ⚔️`);
+      OUTGOING.unshift({ id: 'c' + Date.now(), to: pickedOpponent, questions: questionCount, status: 'بانتظار القبول', ago: 'دلوقتي' });
+      pickedOpponent = null;
+      document.getElementById('sendChallengeBtn').disabled = true;
+    });
+    function bindChallengeBtns() {
+      document.querySelectorAll('.challenge-btn').forEach(b => b.addEventListener('click', () => openModal(b.dataset.name)));
+    }
+
+    paintTabs(); renderTab();
+  </script>
+</body>
+</html>
