@@ -81,101 +81,65 @@ window.FUSHA = (function () {
     localStorage.setItem(WALLET_KEY, String(getWallet() + (op.amount || 0)));
   }
 
-  const NAV_LINKS = [
-    { href: 'dashboard.html', icon: 'layout-dashboard', label: 'لوحة الطالب', key: 'dashboard' },
-    { href: 'dashboard.html#courses', icon: 'book-open', label: 'كورساتك', key: 'courses' },
-    { href: 'mistakes.html', icon: 'notebook-pen', label: 'كشكول الأخطاء', key: 'mistakes' },
-    { href: 'wallet.html', icon: 'wallet', label: 'المحفظة', key: 'wallet' },
-    { href: 'challenge.html', icon: 'swords', label: 'التحدي', key: 'challenge' },
+  const SIDE_LINKS = [
+    { href: 'dashboard.html', icon: 'layout-grid', label: 'لوحة الطالب', key: 'dashboard' },
+    { href: 'dashboard.html#courses', icon: 'book-open-text', label: 'كورساتك', key: 'courses' },
     { href: 'bank.html', icon: 'layers', label: 'بنك الأسئلة', key: 'bank' },
-  ];
-  const MORE_LINKS = [
+    { href: 'challenge.html', icon: 'swords', label: 'التحدي', key: 'challenge' },
+    { href: 'chats.html', icon: 'messages-square', label: 'المحادثات', key: 'chats' },
+    { href: 'mistakes.html', icon: 'notebook-pen', label: 'كشكول الأخطاء', key: 'mistakes' },
+    { href: 'common-mistakes.html', icon: 'octagon-alert', label: 'الأخطاء الشائعة', key: 'common-mistakes' },
     { href: 'build-exam.html', icon: 'file-pen-line', label: 'ابني امتحانك', key: 'build-exam' },
-    { href: 'chats.html', icon: 'messages-square', label: 'مجموعة الطلاب والمعلم', key: 'chats' },
-    { href: 'common-mistakes.html', icon: 'alert-triangle', label: 'الأخطاء الشائعة', key: 'common-mistakes' },
+    { href: 'wallet.html', icon: 'wallet', label: 'المحفظة', key: 'wallet' },
+    { href: 'profile.html', icon: 'user-round', label: 'حسابي', key: 'profile' },
   ];
 
-  function linkCls(active, key) {
-    const base = 'px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ';
-    return base + (active === key ? 'bg-royal-blue text-white shadow-sm' : 'text-slate-600 hover:text-space-900 hover:bg-stone-100');
+  function renderSidebar(active) {
+    const items = SIDE_LINKS.map(l => {
+      const on = active === l.key;
+      return `
+      <a href="${l.href}" title="${l.label}" class="group relative flex items-center gap-3 rounded-xl px-3 py-2.5 ${on ? 'bg-fusha-sage/40 text-white' : 'text-fusha-sageLight/60 hover:bg-white/5 hover:text-white'} transition-colors">
+        ${on ? '<span class="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-full bg-fusha-sun"></span>' : ''}
+        <i data-lucide="${l.icon}" class="w-5 h-5 shrink-0 ${on ? 'text-fusha-sun' : ''}"></i>
+        <span class="nav-label">${l.label}</span>
+      </a>`;
+    }).join('');
+    return `
+    <aside id="sidebar" class="fixed top-0 right-0 h-screen w-[4.5rem] z-50 bg-fusha-forest rounded-l-[1.5rem] flex flex-col items-center py-4 gap-1.5 shadow-2xl shadow-fusha-forest/30">
+      <a href="dashboard.html" class="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center shrink-0 overflow-hidden" title="فُصْحَى">
+        <img src="assets/logo.jpg?v=5" alt="فُصْحَى" class="w-8 h-8 object-contain" />
+      </a>
+      <button id="side-toggle" class="w-7 h-7 rounded-full bg-fusha-sun text-fusha-forestDark flex items-center justify-center shadow-md hover:bg-fusha-sunHover transition-colors shrink-0" aria-label="طي/فتح القائمة">
+        <i data-lucide="chevron-left" class="collapse-arrow w-4 h-4 transition-transform duration-300"></i>
+      </button>
+      <nav class="mt-2 flex flex-col items-stretch gap-1 w-full px-2.5 overflow-y-auto platform-scroll">${items}</nav>
+      <a href="#" onclick="FUSHA.logout(); return false;" class="mt-auto w-11 h-11 rounded-xl bg-white/5 border border-white/10 text-fusha-sageLight/60 hover:text-rose-300 hover:border-rose-300/40 flex items-center justify-center transition-colors shrink-0" title="تسجيل الخروج">
+        <i data-lucide="log-out" class="w-5 h-5"></i>
+      </a>
+    </aside>`;
   }
 
-  function renderHeader(active) {
+  function renderTopbar() {
     const u = getUser();
-    const w = { balance: getWallet() };
-    const navItems = NAV_LINKS.map(l => `
-      <a href="${l.href}" class="${linkCls(active, l.key)}">
-        <i data-lucide="${l.icon}" class="w-4 h-4 ${active === l.key ? 'text-neon-lime' : 'text-royal-blue'}"></i>
-        <span>${l.label}</span>
-      </a>`).join('');
-    const moreItems = MORE_LINKS.map(l => `
-      <a href="${l.href}" class="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-fusha-stone hover:text-royal-blue transition rounded-xl">
-        <i data-lucide="${l.icon}" class="w-4 h-4 text-royal-blue"></i><span>${l.label}</span>
-      </a>`).join('');
-    const allMobile = NAV_LINKS.concat(MORE_LINKS).map(l => `
-      <a href="${l.href}" class="flex items-center gap-2.5 px-4 py-3 text-sm font-bold ${active === l.key ? 'text-royal-blue bg-royal-blue/5' : 'text-slate-700'} rounded-xl">
-        <i data-lucide="${l.icon}" class="w-4 h-4 text-royal-blue"></i><span>${l.label}</span>
-      </a>`).join('');
-
-    const userArea = u ? `
-      <div class="relative">
-        <button id="userMenuBtn" class="flex items-center gap-2 cursor-pointer group">
-          <span class="hidden sm:flex flex-col items-start leading-tight">
-            <span class="text-[9px] text-slate-400 font-bold">أهلاً</span>
-            <span class="text-[11px] font-black text-space-900">${esc(u.name)}</span>
-          </span>
-          <span class="hidden md:inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-neon-limeLight text-[10px] font-black text-[#96690B]">
-            <i data-lucide="coins" class="w-3 h-3"></i><span id="navPoints">${w.balance}</span>
-          </span>
-          <span class="w-9 h-9 rounded-full bg-royal-blue/10 border-2 border-royal-blue/20 flex items-center justify-center text-royal-blue">
-            <i data-lucide="user" class="w-4.5 h-4.5"></i>
-          </span>
-          <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:text-space-900 transition"></i>
-        </button>
-        <div id="userMenu" class="hidden absolute end-0 top-full mt-2 w-60 bg-white rounded-2xl border border-stone-200 shadow-xl shadow-fusha-forest/10 p-2 z-[60]">
-          <div class="px-3.5 py-3 border-b border-stone-100 mb-1">
-            <p class="text-sm font-black text-space-900">${esc(u.name)}</p>
-            <p class="text-[10px] font-bold text-slate-400 mt-0.5">${esc(u.grade)} — كود: <span dir="ltr">${esc(u.code)}</span></p>
-          </div>
-          <a href="profile.html" class="flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-bold text-slate-700 hover:bg-fusha-stone rounded-xl transition"><i data-lucide="user-round" class="w-4 h-4 text-royal-blue"></i>الملف الشخصي</a>
-          <a href="wallet.html" class="flex items-center justify-between px-3.5 py-2.5 text-xs font-bold text-slate-700 hover:bg-fusha-stone rounded-xl transition"><span class="flex items-center gap-2.5"><i data-lucide="wallet" class="w-4 h-4 text-royal-blue"></i>المحفظة</span><span class="text-[10px] text-slate-400 font-black">(${w.balance})</span></a>
-          <a href="mistakes.html" class="flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-bold text-slate-700 hover:bg-fusha-stone rounded-xl transition"><i data-lucide="notebook-pen" class="w-4 h-4 text-royal-blue"></i>إدارة الأخطاء</a>
-          <button onclick="FUSHA.logout()" class="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition cursor-pointer text-start"><i data-lucide="log-out" class="w-4 h-4"></i>تسجيل الخروج</button>
-        </div>
-      </div>` : `
-      <a href="login.html" class="px-4 py-2.5 rounded-xl bg-royal-blue hover:bg-royal-blue-hover text-white text-xs font-black shadow-md transition flex items-center gap-1.5">
-        <i data-lucide="log-in" class="w-4 h-4"></i><span>تسجيل الدخول</span>
-      </a>`;
-
     return `
-    <header class="fixed top-3 sm:top-4 inset-x-3 sm:inset-x-6 lg:inset-x-8 max-w-7xl 2xl:max-w-[1420px] mx-auto z-50 transition-all duration-300 backdrop-blur-md bg-white/95 rounded-2xl sm:rounded-3xl border border-stone-200/80 shadow-lg shadow-fusha-forest/10" id="navbar">
-      <div class="px-3.5 sm:px-5 lg:px-6 xl:px-7 2xl:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
-        <a href="dashboard.html" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
-          <img src="assets/fusha-brand-logo.png?v=2026" alt="شعار فُصْحَى" class="h-9 sm:h-10 w-auto object-contain mix-blend-multiply transition-transform group-hover:scale-105" />
-          <div class="hidden sm:flex flex-col border-r border-stone-200 pr-2 sm:pr-2.5">
-            <span class="text-xs font-alexandria font-bold text-space-900 tracking-tight whitespace-nowrap">أ. أشرف سليم</span>
-            <span class="text-[10px] text-royal-blue font-bold whitespace-nowrap">لغة عربية — ثانوية عامة</span>
-          </div>
-        </a>
-        <nav id="navbar-links" class="hidden lg:flex items-center gap-1 text-xs sm:text-sm font-bold text-slate-700">
-          ${navItems}
-          <div class="relative">
-            <button id="moreBtn" class="px-3.5 py-2 rounded-xl text-slate-600 hover:text-space-900 hover:bg-stone-100 transition-all flex items-center gap-1.5 cursor-pointer">
-              <i data-lucide="layout-grid" class="w-4 h-4 text-royal-blue"></i><span>المزيد</span><i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
-            </button>
-            <div id="moreMenu" class="hidden absolute start-0 top-full mt-2 w-56 bg-white rounded-2xl border border-stone-200 shadow-xl shadow-fusha-forest/10 p-2 z-[60]">${moreItems}</div>
-          </div>
-        </nav>
-        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-          ${userArea}
-          <button id="mobileNavBtn" class="lg:hidden w-10 h-10 rounded-xl bg-stone-100 hover:bg-stone-200 flex items-center justify-center text-slate-600 cursor-pointer" aria-label="القائمة">
-            <i data-lucide="menu" class="w-5 h-5"></i>
-          </button>
-        </div>
-      </div>
-      <div id="mobileNav" class="hidden lg:hidden border-t border-stone-100 px-3 py-3 space-y-1 rounded-b-3xl bg-white">${allMobile}</div>
-    </header>
-    <div class="h-[108px] sm:h-[128px] lg:h-24"></div>`;
+    <header class="sticky top-0 z-40 bg-fusha-cream/90 backdrop-blur-md px-4 sm:px-7 py-4 flex items-center gap-3">
+      <a href="challenge.html" class="w-10 h-10 rounded-full bg-fusha-sun/15 border border-fusha-sun/40 flex items-center justify-center hover:bg-fusha-sun/25 transition-colors" title="إضاءة اليوم">
+        <i data-lucide="sun" class="w-5 h-5 text-fusha-sunDark"></i>
+      </a>
+      <button class="relative w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center hover:border-fusha-sage transition-colors" title="الإشعارات">
+        <i data-lucide="bell" class="w-5 h-5 text-fusha-forest"></i>
+        <span class="absolute -top-1 -left-1 min-w-5 h-5 px-1 rounded-full bg-fusha-forest text-white text-[10px] font-black flex items-center justify-center">0</span>
+      </button>
+      <button class="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center hover:border-fusha-sage transition-colors" title="بحث">
+        <i data-lucide="search" class="w-5 h-5 text-fusha-forest"></i>
+      </button>
+      <a href="profile.html" class="mr-auto flex items-center gap-2.5 bg-fusha-forest text-white rounded-full py-1.5 pr-1.5 pl-4 shadow-md shadow-fusha-forest/20 hover:bg-fusha-forestLight transition-colors" title="حسابي">
+        <span class="w-8 h-8 rounded-full bg-fusha-sun text-fusha-forestDark flex items-center justify-center">
+          <i data-lucide="user-round" class="w-4 h-4"></i>
+        </span>
+        <span class="text-sm font-bold whitespace-nowrap">${esc(u?.name || 'طالب فُصْحَى')}</span>
+      </a>
+    </header>`;
   }
 
   function renderFooter() {
@@ -232,27 +196,31 @@ window.FUSHA = (function () {
   function mount(active) {
     const h = document.getElementById('app-header');
     const f = document.getElementById('app-footer');
-    if (h) h.innerHTML = renderHeader(active);
+    const main = document.querySelector('main');
+    if (h) h.innerHTML = renderSidebar(active);
+    if (main) {
+      const wrap = document.createElement('div');
+      wrap.id = 'page';
+      wrap.className = 'mr-[4.5rem] transition-all duration-300';
+      main.before(wrap);
+      wrap.appendChild(main);
+      if (f) wrap.appendChild(f);
+      main.insertAdjacentHTML('beforebegin', renderTopbar());
+    }
     if (f) f.innerHTML = renderFooter();
     const y = document.getElementById('currentYear');
     if (y) y.textContent = new Date().getFullYear();
 
-    // dropdowns
-    const bind = (btnId, menuId) => {
-      const b = document.getElementById(btnId), m = document.getElementById(menuId);
-      if (!b || !m) return;
-      b.addEventListener('click', (e) => { e.stopPropagation(); m.classList.toggle('hidden'); });
-    };
-    bind('userMenuBtn', 'userMenu');
-    bind('moreBtn', 'moreMenu');
-    const mob = document.getElementById('mobileNavBtn'), mobM = document.getElementById('mobileNav');
-    if (mob && mobM) mob.addEventListener('click', () => mobM.classList.toggle('hidden'));
-    document.addEventListener('click', (e) => {
-      ['userMenu', 'moreMenu'].forEach(id => {
-        const m = document.getElementById(id);
-        if (m && !m.classList.contains('hidden') && !m.contains(e.target)) m.classList.add('hidden');
+    const sb = document.getElementById('sidebar'), pg = document.getElementById('page'), tg = document.getElementById('side-toggle');
+    if (sb && pg && tg) {
+      tg.addEventListener('click', () => {
+        const open = sb.classList.toggle('expanded');
+        sb.classList.toggle('w-[4.5rem]', !open);
+        sb.classList.toggle('w-60', open);
+        pg.classList.toggle('mr-[4.5rem]', !open);
+        pg.classList.toggle('mr-60', open);
       });
-    });
+    }
     if (window.lucide) window.lucide.createIcons();
   }
 

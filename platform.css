@@ -17,6 +17,18 @@ html, body {
   }
 }
 
+/* collapsible right sidebar */
+#sidebar { transition: width .3s cubic-bezier(.2, 0, 0, 1); }
+#sidebar .nav-label {
+  opacity: 0; width: 0; overflow: hidden; white-space: nowrap;
+  font-weight: 700; font-size: .8125rem;
+  transition: opacity .25s ease, width .25s ease;
+}
+#sidebar.expanded .nav-label { opacity: 1; width: auto; }
+#sidebar.expanded .collapse-arrow { transform: rotate(180deg); }
+#sidebar.expanded { align-items: stretch; }
+#sidebar.expanded > a, #sidebar.expanded > button, #sidebar.expanded > nav { align-self: stretch; }
+
 /* quiz option cards */
 .option-card { transition: all 180ms cubic-bezier(0.2, 0, 0, 1); }
 .option-card:hover { transform: translateY(-2px); }
