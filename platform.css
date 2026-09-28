@@ -21,9 +21,9 @@ html, body {
 .option-card { transition: all 180ms cubic-bezier(0.2, 0, 0, 1); }
 .option-card:hover { transform: translateY(-2px); }
 .option-card.selected {
-  border-color: #AADB1E !important;
-  background-color: rgba(170, 219, 30, 0.08) !important;
-  box-shadow: 0 0 15px rgba(170, 219, 30, 0.18);
+  border-color: #EAA72E !important;
+  background-color: rgba(234, 167, 46, 0.08) !important;
+  box-shadow: 0 0 15px rgba(234, 167, 46, 0.18);
 }
 .option-card.correct-highlight {
   border-color: #10B981 !important;
@@ -50,4 +50,4 @@ html, body {
 
 /* upload dropzone */
 .dropzone { transition: all .2s ease; }
-.dropzone:hover { border-color: #AADB1E; background: #F0F9D6; }
+.dropzone:hover { border-color: #EAA72E; background: #FDF3DC; }

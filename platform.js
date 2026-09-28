@@ -8,14 +8,14 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        space: { 950: '#050817', 900: '#0A0E27', 850: '#0C1233', 800: '#111B47', 700: '#1A2456', 600: '#23306B', 500: '#2D3A6E' },
-        'neon-lime': '#AADB1E',
-        'neon-limeHover': '#8BC200',
-        'neon-limeLight': '#F0F9D6',
-        'royal-blue': '#0033CC',
-        'royal-blue-hover': '#1A4FE0',
-        'royal-blue-dark': '#001A66',
-        'royal-blue-light': '#6699FF',
+        space: { 950: '#0D1D18', 900: '#142B24', 850: '#1E3E34', 800: '#24463A', 700: '#2C5346', 600: '#356054', 500: '#3E6E60' },
+        'neon-lime': '#EAA72E',
+        'neon-limeHover': '#D49420',
+        'neon-limeLight': '#FDF3DC',
+        'royal-blue': '#142B24',
+        'royal-blue-hover': '#1E3E34',
+        'royal-blue-dark': '#0D1D18',
+        'royal-blue-light': '#5F7A61',
         fusha: {
           forest: '#142B24', forestDark: '#0D1D18', forestLight: '#1E3E34',
           khaki: '#B7B19B', khakiLight: '#E8E4DA', sage: '#5F7A61', sageLight: '#F0F4F1',
@@ -124,7 +124,7 @@ window.FUSHA = (function () {
             <span class="text-[9px] text-slate-400 font-bold">أهلاً</span>
             <span class="text-[11px] font-black text-space-900">${esc(u.name)}</span>
           </span>
-          <span class="hidden md:inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-neon-limeLight text-[10px] font-black text-[#5c7a00]">
+          <span class="hidden md:inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-neon-limeLight text-[10px] font-black text-[#96690B]">
             <i data-lucide="coins" class="w-3 h-3"></i><span id="navPoints">${w.balance}</span>
           </span>
           <span class="w-9 h-9 rounded-full bg-royal-blue/10 border-2 border-royal-blue/20 flex items-center justify-center text-royal-blue">
@@ -132,7 +132,7 @@ window.FUSHA = (function () {
           </span>
           <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:text-space-900 transition"></i>
         </button>
-        <div id="userMenu" class="hidden absolute end-0 top-full mt-2 w-60 bg-white rounded-2xl border border-stone-200 shadow-xl shadow-blue-900/10 p-2 z-[60]">
+        <div id="userMenu" class="hidden absolute end-0 top-full mt-2 w-60 bg-white rounded-2xl border border-stone-200 shadow-xl shadow-fusha-forest/10 p-2 z-[60]">
           <div class="px-3.5 py-3 border-b border-stone-100 mb-1">
             <p class="text-sm font-black text-space-900">${esc(u.name)}</p>
             <p class="text-[10px] font-bold text-slate-400 mt-0.5">${esc(u.grade)} — كود: <span dir="ltr">${esc(u.code)}</span></p>
@@ -148,10 +148,10 @@ window.FUSHA = (function () {
       </a>`;
 
     return `
-    <header class="fixed top-3 sm:top-4 inset-x-3 sm:inset-x-6 lg:inset-x-8 max-w-7xl 2xl:max-w-[1420px] mx-auto z-50 transition-all duration-300 backdrop-blur-md bg-white/95 rounded-2xl sm:rounded-3xl border border-stone-200/80 shadow-lg shadow-blue-900/10" id="navbar">
+    <header class="fixed top-3 sm:top-4 inset-x-3 sm:inset-x-6 lg:inset-x-8 max-w-7xl 2xl:max-w-[1420px] mx-auto z-50 transition-all duration-300 backdrop-blur-md bg-white/95 rounded-2xl sm:rounded-3xl border border-stone-200/80 shadow-lg shadow-fusha-forest/10" id="navbar">
       <div class="px-3.5 sm:px-5 lg:px-6 xl:px-7 2xl:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
         <a href="dashboard.html" class="flex items-center gap-2 sm:gap-2.5 group shrink-0">
-          <img src="assets/logo.jpg?v=4" alt="شعار فُصْحَى" class="h-9 sm:h-11 w-9 sm:w-11 rounded-xl object-cover transition-transform group-hover:scale-105" />
+          <img src="assets/fusha-brand-logo.png?v=2026" alt="شعار فُصْحَى" class="h-9 sm:h-10 w-auto object-contain mix-blend-multiply transition-transform group-hover:scale-105" />
           <div class="hidden sm:flex flex-col border-r border-stone-200 pr-2 sm:pr-2.5">
             <span class="text-xs font-alexandria font-bold text-space-900 tracking-tight whitespace-nowrap">أ. أشرف سليم</span>
             <span class="text-[10px] text-royal-blue font-bold whitespace-nowrap">لغة عربية — ثانوية عامة</span>
@@ -163,7 +163,7 @@ window.FUSHA = (function () {
             <button id="moreBtn" class="px-3.5 py-2 rounded-xl text-slate-600 hover:text-space-900 hover:bg-stone-100 transition-all flex items-center gap-1.5 cursor-pointer">
               <i data-lucide="layout-grid" class="w-4 h-4 text-royal-blue"></i><span>المزيد</span><i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
             </button>
-            <div id="moreMenu" class="hidden absolute start-0 top-full mt-2 w-56 bg-white rounded-2xl border border-stone-200 shadow-xl shadow-blue-900/10 p-2 z-[60]">${moreItems}</div>
+            <div id="moreMenu" class="hidden absolute start-0 top-full mt-2 w-56 bg-white rounded-2xl border border-stone-200 shadow-xl shadow-fusha-forest/10 p-2 z-[60]">${moreItems}</div>
           </div>
         </nav>
         <div class="flex items-center gap-2 sm:gap-3 shrink-0">
@@ -213,7 +213,7 @@ window.FUSHA = (function () {
 
   function hero(icon, title, sub, extraHtml) {
     return `
-    <div class="bg-space-900 rounded-3xl p-6 sm:p-8 text-white shadow-lg shadow-blue-900/20 relative overflow-hidden">
+    <div class="bg-space-900 rounded-3xl p-6 sm:p-8 text-white shadow-lg shadow-fusha-forest/15 relative overflow-hidden">
       <div class="absolute -end-10 -top-16 w-64 h-64 rounded-full bg-royal-blue/25 blur-3xl pointer-events-none"></div>
       <div class="absolute -start-14 -bottom-20 w-72 h-72 rounded-full bg-neon-lime/10 blur-3xl pointer-events-none"></div>
       <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -265,7 +265,7 @@ window.FUSHA = (function () {
       document.body.appendChild(t);
     }
     t.textContent = msg;
-    t.style.background = ok === false ? '#E11D48' : '#0A0E27';
+    t.style.background = ok === false ? '#E11D48' : '#142B24';
     requestAnimationFrame(() => { t.classList.remove('translate-y-20', 'opacity-0'); });
     clearTimeout(t._timer);
     t._timer = setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 3200);

@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // 1. FULLSCREEN INTRO SCRIBBLER & SECTION TRANSITIONS (Truus / Animmaster)
 // =========================================================
 const INTRO_COLORS = [
-  // Gravity Signature Brand Colors (Pure Blues & Space Dark)
-  { name: 'space', value: '#0A0E27', isLight: false },
-  { name: 'royal', value: '#0033CC', isLight: false },
-  { name: 'electric', value: '#1A4FE0', isLight: false },
-  { name: 'surface', value: '#111B47', isLight: false },
+  // Fusha Signature Brand Colors (Deep Forest, Olive, Sun)
+  { name: 'forest', value: '#142B24', isLight: false },
+  { name: 'forestDark', value: '#0D1D18', isLight: false },
+  { name: 'forestLight', value: '#1E3E34', isLight: false },
+  { name: 'slate', value: '#1C2E29', isLight: false },
 ];
 
 let lastColorIdx = -1;
@@ -230,13 +230,13 @@ window.addEventListener('pageshow', function (event) {
 // 1.1 SECTION TRANSITION SVG (Animmaster/SVG-Page-transition)
 // =========================================================
 const SECTION_TRANSITION_PAIRS = [
-  { stroke1: '#0033CC', stroke2: '#0A0E27' }, // Royal Blue & Space Dark Canvas
-  { stroke1: '#0A0E27', stroke2: '#1A4FE0' }, // Space Dark & Electric Blue
-  { stroke1: '#111B47', stroke2: '#0033CC' }, // Space Surface & Royal Blue
-  { stroke1: '#001A66', stroke2: '#0033CC' }, // Deep Blue Core & Royal Blue
-  { stroke1: '#1A4FE0', stroke2: '#0A0E27' }, // Electric Blue & Space Dark
-  { stroke1: '#0033CC', stroke2: '#111B47' }, // Royal Blue & Space Surface
-  { stroke1: '#1A2456', stroke2: '#0033CC' }, // Elevated Space Navy & Royal Blue
+  { stroke1: '#EAA72E', stroke2: '#142B24' }, // Sun Gold & Deep Forest
+  { stroke1: '#142B24', stroke2: '#96690B' }, // Forest & Dark Sun
+  { stroke1: '#1E3E34', stroke2: '#EAA72E' }, // Forest Light & Sun
+  { stroke1: '#0D1D18', stroke2: '#EAA72E' }, // Forest Dark & Sun
+  { stroke1: '#D49420', stroke2: '#142B24' }, // Sun Hover & Forest
+  { stroke1: '#142B24', stroke2: '#5F7A61' }, // Forest & Sage
+  { stroke1: '#1C2E29', stroke2: '#EAA72E' }, // Slate & Sun
 ];
 
 let lastPairIdx = -1;

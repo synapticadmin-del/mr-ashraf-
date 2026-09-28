@@ -81,7 +81,7 @@
 
     function avatarHtml(m) {
       if (m.role === 'teacher') return `<img src="assets/teacher-ashraf.jpg" class="w-9 h-9 rounded-full object-cover border-2 border-neon-lime shadow" alt="أ. أشرف سليم" />`;
-      const c = ['bg-royal-blue', 'bg-[#8BC200]', 'bg-purple-500', 'bg-amber-500', 'bg-rose-500'][m.name.charCodeAt(0) % 5];
+      const c = ['bg-royal-blue', 'bg-[#96690B]', 'bg-purple-500', 'bg-amber-500', 'bg-rose-500'][m.name.charCodeAt(0) % 5];
       return `<span class="w-9 h-9 rounded-full ${c} text-white flex items-center justify-center text-xs font-black shadow">${esc(m.name.trim()[0])}</span>`;
     }
 
