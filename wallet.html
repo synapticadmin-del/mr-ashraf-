@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>المحفظة وكروت الشحن | فُصْحَى — أ. أشرف سليم</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg?v=4" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png?v=4" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=4" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;700;800;900&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="platform.js?v=6"></script>
+  <link rel="stylesheet" href="platform.css?v=6" />
+</head>
+<body class="bg-fusha-cream text-slate-800 font-cairo antialiased min-h-screen flex flex-col selection:bg-neon-lime selection:text-space-950">
+
+  <div id="app-header"></div>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
+
+    <div id="heroSlot"></div>
+
+    <div class="grid lg:grid-cols-3 gap-6 items-start">
+
+      <!-- Redeem card -->
+      <section class="bg-white rounded-3xl border border-stone-200 shadow-sm p-5 sm:p-7 space-y-4">
+        <h2 class="font-alexandria font-black text-base text-space-900 flex items-center gap-2"><i data-lucide="ticket" class="w-5 h-5 text-royal-blue"></i> عندك كارت تفعيل؟</h2>
+        <p class="text-xs font-bold text-slate-500 leading-relaxed">اكتب كود الكارت اللي اشتريته من السنتر أو الوكيل بالشكل دا: <span class="font-mono" dir="ltr">FUSHA-XXXX-XXXX</span></p>
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input id="redeemCode" type="text" dir="ltr" placeholder="FUSHA-XXXX-XXXX" maxlength="17" class="flex-1 px-4 py-3.5 rounded-2xl bg-fusha-cream border border-stone-200 text-sm font-mono font-bold text-space-900 text-center tracking-widest placeholder:text-slate-300 focus:outline-none focus:border-neon-lime transition uppercase" />
+          <button id="redeemBtn" class="px-6 py-3.5 rounded-2xl bg-neon-lime hover:bg-neon-limeHover text-space-950 font-alexandria font-black text-xs shadow-lg shadow-neon-lime/20 transition cursor-pointer shrink-0">تفعيل الكارت ⚡</button>
+        </div>
+        <p id="redeemMsg" class="hidden text-xs font-black"></p>
+      </section>
+
+      <!-- Balance -->
+      <section class="bg-space-900 rounded-3xl shadow-lg shadow-fusha-forest/15 p-6 sm:p-7 text-white relative overflow-hidden">
+        <div class="absolute -end-8 -top-12 w-48 h-48 rounded-full bg-royal-blue/30 blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 space-y-4">
+          <p class="text-xs font-bold text-white/70">رصيد المحفظة الحالي</p>
+          <div class="flex items-end gap-2">
+            <p class="font-alexandria font-black text-4xl sm:text-5xl" id="balanceVal" dir="ltr">0</p>
+            <span class="text-sm font-bold text-neon-lime mb-1.5">جنيه</span>
+          </div>
+          <div class="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-bold text-white/60">
+            <span class="flex items-center gap-1.5"><i data-lucide="wallet" class="w-3.5 h-3.5"></i>محفظة فُصْحَى</span>
+            <span dir="ltr" id="balanceCode">FUSHA-0000-0000</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Other channels -->
+      <section class="bg-white rounded-3xl border border-stone-200 shadow-sm p-5 sm:p-7 space-y-4">
+        <h2 class="font-alexandria font-black text-base text-space-900 flex items-center gap-2"><i data-lucide="smartphone" class="w-5 h-5 text-[#96690B]"></i> طرق شحن تانية</h2>
+        <div class="grid grid-cols-3 gap-2">
+          <div class="rounded-2xl border border-stone-200 p-3 text-center space-y-1.5">
+            <span class="w-9 h-9 mx-auto rounded-xl bg-red-50 flex items-center justify-center"><i data-lucide="smartphone" class="w-4.5 h-4.5 text-red-500"></i></span>
+            <p class="text-[9px] font-black text-slate-600">فودافون كاش</p>
+          </div>
+          <div class="rounded-2xl border border-stone-200 p-3 text-center space-y-1.5">
+            <span class="w-9 h-9 mx-auto rounded-xl bg-purple-50 flex items-center justify-center"><i data-lucide="landmark" class="w-4.5 h-4.5 text-purple-500"></i></span>
+            <p class="text-[9px] font-black text-slate-600">إنستاباي</p>
+          </div>
+          <div class="rounded-2xl border border-stone-200 p-3 text-center space-y-1.5">
+            <span class="w-9 h-9 mx-auto rounded-xl bg-amber-50 flex items-center justify-center"><i data-lucide="store" class="w-4.5 h-4.5 text-amber-500"></i></span>
+            <p class="text-[9px] font-black text-slate-600">كروت السنتر</p>
+          </div>
+        </div>
+        <p class="text-[11px] font-bold text-slate-500 leading-relaxed">حوّل المبلغ على أي وسيلة وابعت صورة الإيصال على الواتساب — الرصيد بيتشحن خلال دقايق.</p>
+        <a href="https://wa.me/201000000000?text=أريد%20شحن%20محفظة%20فُصْحَى" target="_blank" rel="noopener" class="w-full py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-alexandria font-black text-xs shadow-md transition flex items-center justify-center gap-2">
+          <i data-lucide="message-circle" class="w-4 h-4"></i><span>شحن عبر الواتساب</span>
+        </a>
+      </section>
+    </div>
+
+    <!-- Transactions -->
+    <section class="bg-white rounded-3xl border border-stone-200 shadow-sm overflow-hidden">
+      <div class="px-5 sm:px-7 py-4 border-b border-stone-200 flex items-center justify-between">
+        <h2 class="font-alexandria font-black text-base text-space-900 flex items-center gap-2"><i data-lucide="receipt-text" class="w-5 h-5 text-royal-blue"></i> سجل العمليات</h2>
+        <span class="text-[10px] font-bold text-slate-400" id="txCount"></span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-right min-w-[560px]">
+          <thead>
+            <tr class="bg-fusha-cream text-[10px] font-black text-slate-500">
+              <th class="px-5 sm:px-7 py-3">النوع</th>
+              <th class="px-5 py-3">القيمة</th>
+              <th class="px-5 py-3">التاريخ</th>
+              <th class="px-5 py-3">الحالة</th>
+            </tr>
+          </thead>
+          <tbody id="txBody" class="divide-y divide-stone-100"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script>
+    FUSHA.mount('wallet');
+    document.getElementById('heroSlot').outerHTML = FUSHA.hero('wallet', 'المحفظة وكروت الشحن', 'فعّل كروت السنتر أو اشحن رصيدك من أي محفظة إلكترونية — الرصيد بيوصل فوري ⚡');
+    if (window.lucide) window.lucide.createIcons();
+
+    const esc = FUSHA.esc;
+    const u = FUSHA.getUser();
+    if (u) document.getElementById('balanceCode').textContent = u.code;
+
+    // seed demo ops
+    if (!localStorage.getItem('fusha_wallet_seeded')) {
+      FUSHA.addWalletOp({ type: 'تفعيل كارت', amount: 250, date: '٢٢ سبتمبر ٢٠٢٥', status: 'مكتمل', ok: true });
+      FUSHA.addWalletOp({ type: 'اشتراك كورس النحو', amount: -180, date: '٢٢ سبتمبر ٢٠٢٥', status: 'مكتمل', ok: true });
+      FUSHA.addWalletOp({ type: 'شحن واتساب', amount: 100, date: '٢٥ سبتمبر ٢٠٢٥', status: 'قيد المراجعة', ok: false });
+      localStorage.setItem('fusha_wallet', '170');
+      localStorage.setItem('fusha_wallet_seeded', '1');
+    }
+
+    function paintBalance() {
+      document.getElementById('balanceVal').textContent = FUSHA.getWallet().toLocaleString('en');
+    }
+
+    function renderTx() {
+      const ops = FUSHA.getWalletOps();
+      document.getElementById('txCount').textContent = ops.length + ' عملية';
+      document.getElementById('txBody').innerHTML = ops.length ? ops.map(o => `
+        <tr>
+          <td class="px-5 sm:px-7 py-4">
+            <span class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-lg ${o.amount >= 0 ? 'bg-emerald-50 text-emerald-500' : 'bg-rose-50 text-rose-500'} flex items-center justify-center shrink-0"><i data-lucide="${o.amount >= 0 ? 'arrow-down-left' : 'arrow-up-left'}" class="w-4 h-4"></i></span>
+              <span class="text-xs font-black text-space-900">${esc(o.type)}</span>
+            </span>
+          </td>
+          <td class="px-5 py-4 text-xs font-black ${o.amount >= 0 ? 'text-emerald-600' : 'text-rose-500'}" dir="ltr">${o.amount >= 0 ? '+' : ''}${o.amount} ج</td>
+          <td class="px-5 py-4 text-[11px] font-bold text-slate-500">${esc(o.date)}</td>
+          <td class="px-5 py-4"><span class="px-2.5 py-1 rounded-lg text-[10px] font-black ${o.ok ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-amber-50 text-amber-600 border border-amber-200'}">${esc(o.status)}</span></td>
+        </tr>`).join('')
+      : `<tr><td colspan="4" class="px-7 py-10 text-center text-xs font-bold text-slate-400">مفيش عمليات لسه</td></tr>`;
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    const codeInput = document.getElementById('redeemCode');
+    const msg = document.getElementById('redeemMsg');
+    codeInput.addEventListener('input', () => { codeInput.value = codeInput.value.toUpperCase(); });
+    document.getElementById('redeemBtn').addEventListener('click', () => {
+      const v = codeInput.value.trim();
+      const ok = /^FUSHA-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(v);
+      msg.classList.remove('hidden');
+      if (!ok) {
+        msg.className = 'text-xs font-black text-rose-500';
+        msg.textContent = '❌ الكود مش صحيح — تأكد إنه بالشكل FUSHA-XXXX-XXXX';
+        return;
+      }
+      FUSHA.addWalletOp({ type: 'تفعيل كارت ' + v, amount: 200, date: 'دلوقتي', status: 'مكتمل', ok: true });
+      msg.className = 'text-xs font-black text-emerald-600';
+      msg.textContent = '✅ الكارت اتفعل — اتضاف 200 جنيه لمحفظتك';
+      codeInput.value = '';
+      paintBalance(); renderTx();
+      FUSHA.toast('رصيدك اتشحن بـ 200 جنيه 🎉');
+    });
+
+    paintBalance(); renderTx();
+  </script>
+</body>
+</html>

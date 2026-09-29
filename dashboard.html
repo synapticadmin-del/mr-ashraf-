@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة الطالب | منصة فُصْحَى</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg?v=5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Alexandria:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="platform.js?v=6"></script>
+  <link rel="stylesheet" href="platform.css?v=6" />
+  <style>
+    .leaf-bg {
+      background-color: #E8E4DA;
+      background-image:
+        radial-gradient(ellipse 340px 200px at 8% 15%, rgba(95,122,97,0.14), transparent 60%),
+        radial-gradient(ellipse 300px 180px at 92% 85%, rgba(139,149,101,0.16), transparent 60%),
+        radial-gradient(ellipse 220px 140px at 15% 90%, rgba(95,122,97,0.10), transparent 60%);
+    }
+  </style>
+</head>
+<body class="font-cairo bg-fusha-cream text-fusha-forest min-h-screen">
+  <div id="app-header"></div>
+
+  <main class="px-4 sm:px-7 pb-16 max-w-6xl mx-auto space-y-8 pt-2">
+
+    <!-- stats row -->
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div class="rounded-2xl bg-fusha-oliveDark text-white p-5 flex items-center justify-between shadow-lg shadow-fusha-oliveDark/25">
+        <div>
+          <p class="text-4xl font-black leading-none">0</p>
+          <p class="mt-2 text-sm font-bold text-white/85">الفيديوهات المحفوظة</p>
+        </div>
+        <i data-lucide="bookmark" class="w-9 h-9 text-white/50"></i>
+      </div>
+      <div class="rounded-2xl bg-fusha-oliveDark text-white p-5 flex items-center justify-between shadow-lg shadow-fusha-oliveDark/25">
+        <div>
+          <p class="text-4xl font-black leading-none">0</p>
+          <p class="mt-2 text-sm font-bold text-white/85">كورساتك الحالية</p>
+        </div>
+        <i data-lucide="sparkles" class="w-9 h-9 text-white/50"></i>
+      </div>
+      <div class="rounded-2xl bg-fusha-oliveDark text-white p-5 flex items-center justify-between shadow-lg shadow-fusha-oliveDark/25">
+        <div>
+          <p class="text-4xl font-black leading-none">0</p>
+          <p class="mt-2 text-sm font-bold text-white/85">كورسات مكتملة</p>
+        </div>
+        <i data-lucide="badge-check" class="w-9 h-9 text-white/50"></i>
+      </div>
+    </section>
+
+    <!-- continue watching -->
+    <section class="leaf-bg rounded-3xl p-6 sm:p-8 border border-fusha-khaki/50 overflow-hidden relative">
+      <div class="flex items-center justify-between gap-3 flex-wrap mb-5">
+        <h2 class="font-alexandria text-xl sm:text-2xl font-extrabold text-fusha-forest flex items-center gap-2">
+          <i data-lucide="play-circle" class="w-6 h-6 text-fusha-sunDark"></i> كمّل من حيث وقفت
+        </h2>
+        <span class="text-[11px] font-bold bg-white/70 border border-fusha-khaki/60 text-fusha-oliveDark rounded-full px-3 py-1">الصف الثالث الثانوي — الوحدة الأولى</span>
+      </div>
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-5">
+        <div class="relative w-full sm:w-44 h-28 rounded-2xl bg-fusha-forest flex items-center justify-center shrink-0 overflow-hidden shadow-lg shadow-fusha-forest/20">
+          <i data-lucide="book-open-text" class="w-10 h-10 text-white/25"></i>
+          <span class="absolute bottom-2 left-2 bg-black/50 text-white text-[10px] font-bold rounded-md px-2 py-0.5" dir="ltr">23:45</span>
+          <button class="absolute inset-0 m-auto w-12 h-12 rounded-full bg-fusha-sun text-fusha-forestDark flex items-center justify-center shadow-xl hover:scale-110 transition-transform" aria-label="تشغيل">
+            <i data-lucide="play" class="w-5 h-5 mr-0.5"></i>
+          </button>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-alexandria text-lg sm:text-2xl font-extrabold text-fusha-forest">النحو: كان وأخواتها — الجزء الأول</h3>
+          <p class="mt-1 text-xs sm:text-sm font-semibold text-fusha-oliveDark">أ. أشرف سليم • المدة 45 دقيقة • وقفت عند 23:45</p>
+          <div class="mt-4 h-2.5 rounded-full bg-white/70 border border-fusha-khaki/50 overflow-hidden">
+            <div class="h-full w-[52%] rounded-full bg-gradient-to-l from-fusha-sun to-fusha-sunHover"></div>
+          </div>
+          <p class="mt-1.5 text-[11px] font-black text-fusha-oliveDark">52% من المحاضرة</p>
+        </div>
+        <a href="#" class="shrink-0 inline-flex items-center justify-center gap-2 bg-fusha-forest hover:bg-fusha-forestLight text-white font-extrabold text-sm rounded-xl px-7 py-3.5 shadow-lg shadow-fusha-forest/25 transition-colors">
+          <i data-lucide="play" class="w-4 h-4 text-fusha-sun"></i> كمّل المشاهدة
+        </a>
+      </div>
+    </section>
+
+    <!-- weekly tasks + streak + announcements -->
+    <section class="grid lg:grid-cols-3 gap-5">
+      <!-- tasks (student-managed) -->
+      <div class="lg:col-span-2 rounded-3xl bg-white border border-stone-200 shadow-lg shadow-fusha-forest/10 p-6">
+        <div class="flex items-center justify-between gap-3 flex-wrap mb-4">
+          <h2 class="font-alexandria text-xl font-extrabold text-fusha-forest flex items-center gap-2">
+            <i data-lucide="list-checks" class="w-5 h-5 text-fusha-sage"></i> مهام الأسبوع
+          </h2>
+          <span class="inline-flex items-center gap-1.5 bg-fusha-sunLight border border-fusha-sun/40 text-fusha-sunDark text-xs font-black rounded-full px-3.5 py-1.5">
+            <i data-lucide="flame" class="w-4 h-4"></i> سلسلة مذاكرتك: <span id="streak-count">3</span> أيام متتالية
+          </span>
+        </div>
+
+        <div class="flex gap-2 mb-4">
+          <input id="task-input" type="text" maxlength="120"
+            class="flex-1 min-w-0 rounded-xl border-2 border-stone-200 bg-fusha-stone px-4 py-3 text-sm font-bold text-fusha-forest placeholder:text-fusha-oliveDark/60 focus:border-fusha-sage focus:outline-none transition-colors"
+            placeholder="اكتب مهمتك هنا واضغط Enter أو زرار الإضافة…" />
+          <button id="task-add" class="shrink-0 w-12 rounded-xl bg-fusha-forest text-fusha-sun flex items-center justify-center hover:bg-fusha-forestLight transition-colors shadow-md" aria-label="إضافة مهمة">
+            <i data-lucide="plus" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <ul id="tasks-list" class="space-y-2.5"></ul>
+
+        <div id="tasks-empty" class="rounded-2xl border-2 border-dashed border-fusha-khaki/70 bg-fusha-stone/60 px-5 py-8 text-center">
+          <i data-lucide="list-plus" class="w-9 h-9 text-fusha-sage mx-auto mb-3"></i>
+          <p class="text-sm font-extrabold text-fusha-forest">قايمة مهامك فاضية لسه</p>
+          <p class="mt-1.5 text-xs font-semibold text-fusha-oliveDark leading-relaxed">
+            اكتب مهمة في الخانة فوق واضغط Enter عشان تضيفها —<br />
+            اضغط على المهمة عشان تشطبها كـ«تمّت»، واضغط ✕ عشان تمسحها.
+          </p>
+        </div>
+      </div>
+
+      <!-- announcements -->
+      <div class="rounded-3xl bg-fusha-forest text-white p-6 relative overflow-hidden shadow-xl shadow-fusha-forest/25">
+        <div class="absolute -top-10 -left-10 w-36 h-36 rounded-full bg-fusha-sun/15 blur-2xl"></div>
+        <h2 class="font-alexandria text-xl font-extrabold flex items-center gap-2 relative">
+          <i data-lucide="megaphone" class="w-5 h-5 text-fusha-sun"></i> إعلانات أ. أشرف
+        </h2>
+        <ul class="mt-5 space-y-4 relative">
+          <li class="flex gap-3">
+            <span class="mt-1.5 w-2 h-2 rounded-full bg-fusha-sun shrink-0"></span>
+            <div>
+              <p class="text-sm font-extrabold">مسابقة البلاغة الكبرى</p>
+              <p class="text-xs text-fusha-sageLight/75 font-semibold mt-0.5">الجمعة الجاية 8م — سجل مكانك في التحدي</p>
+            </div>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-1.5 w-2 h-2 rounded-full bg-fusha-sun shrink-0"></span>
+            <div>
+              <p class="text-sm font-extrabold">بث مباشر: مراجعة النحو</p>
+              <p class="text-xs text-fusha-sageLight/75 font-semibold mt-0.5">الخميس 8 مساءً على قناة اليوتيوب</p>
+            </div>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-1.5 w-2 h-2 rounded-full bg-fusha-sun shrink-0"></span>
+            <div>
+              <p class="text-sm font-extrabold">خصم 20% على كروت الشحن</p>
+              <p class="text-xs text-fusha-sageLight/75 font-semibold mt-0.5">لأوائل لوحة الشرف هذا الأسبوع</p>
+            </div>
+          </li>
+        </ul>
+        <a href="chats.html" class="mt-5 inline-flex items-center gap-2 text-xs font-black text-fusha-sun hover:text-fusha-sunHover transition-colors">كل الإعلانات في مجموعة الطلاب <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i></a>
+      </div>
+    </section>
+
+    <!-- courses -->
+    <section id="courses">
+      <div class="flex items-end justify-between flex-wrap gap-3 mb-5">
+        <div>
+          <h2 class="font-alexandria text-2xl sm:text-3xl font-extrabold text-fusha-forest">كورساتك</h2>
+          <p class="mt-1.5 text-sm font-semibold text-fusha-oliveDark">اللغة العربية — الصف الثالث الثانوي</p>
+        </div>
+        <a href="bank.html" class="text-sm font-extrabold text-fusha-oliveDark hover:text-fusha-sunDark transition-colors inline-flex items-center gap-1">تدرّب في بنك الأسئلة <i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-4">
+        <a href="bank.html" class="group rounded-2xl bg-fusha-forest text-white p-6 relative overflow-hidden hover:-translate-y-1 transition-transform shadow-lg shadow-fusha-forest/25">
+          <i data-lucide="book-open-text" class="w-8 h-8 text-fusha-sun mb-3"></i>
+          <h3 class="font-extrabold text-lg">النحو الشامل</h3>
+          <p class="text-xs text-white/70 font-semibold mt-1">الوحدات السبع — 42 محاضرة</p>
+        </a>
+        <a href="bank.html" class="group rounded-2xl bg-fusha-forestLight text-white p-6 relative overflow-hidden hover:-translate-y-1 transition-transform shadow-lg shadow-fusha-forest/25">
+          <i data-lucide="feather" class="w-8 h-8 text-fusha-sun mb-3"></i>
+          <h3 class="font-extrabold text-lg">البلاغة والنقد</h3>
+          <p class="text-xs text-white/70 font-semibold mt-1">من الصفر للاحتراف — 28 محاضرة</p>
+        </a>
+        <a href="bank.html" class="group rounded-2xl bg-fusha-oliveDark text-white p-6 relative overflow-hidden hover:-translate-y-1 transition-transform shadow-lg shadow-fusha-oliveDark/25">
+          <i data-lucide="newspaper" class="w-8 h-8 text-fusha-sun mb-3"></i>
+          <h3 class="font-extrabold text-lg">القراءة والنصوص</h3>
+          <p class="text-xs text-white/70 font-semibold mt-1">بنك الأفكار — 19 محاضرة</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- honor board -->
+    <section>
+      <div class="flex items-end justify-between flex-wrap gap-3 mb-5">
+        <div>
+          <h2 class="font-alexandria text-2xl sm:text-3xl font-extrabold text-fusha-forest">لوحة الشرف</h2>
+          <p class="mt-1.5 text-sm font-semibold text-fusha-oliveDark leading-relaxed">أولئك طلبنا المكرمون — ذاكر كويس وهات درجاتك الكاملة في الامتحانات عشان تبقى من أوائل طلبنا!</p>
+        </div>
+        <a href="challenge.html" class="text-sm font-extrabold text-fusha-oliveDark hover:text-fusha-sunDark transition-colors inline-flex items-center gap-1">عرض اللوحة كاملة <i data-lucide="arrow-left" class="w-4 h-4"></i></a>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-5">
+        <!-- gold card -->
+        <div class="lg:col-span-2 rounded-3xl bg-fusha-sun text-fusha-forestDark p-7 sm:p-9 relative overflow-hidden shadow-xl shadow-fusha-sun/25">
+          <div class="absolute top-4 left-5 w-14 h-14 border-4 border-dashed border-fusha-forestDark/30 rounded-2xl rotate-12"></div>
+          <div class="absolute bottom-5 left-7 w-8 h-8 border-4 border-fusha-forestDark/20 rounded-full"></div>
+          <div class="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-white/15"></div>
+          <span class="inline-flex items-center gap-1.5 bg-fusha-forestDark text-fusha-sun text-[11px] font-black rounded-full px-3 py-1.5">
+            <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> المكان ده مستنيك
+          </span>
+          <h3 class="mt-4 font-alexandria text-3xl sm:text-4xl font-black leading-tight">اسمك مش على اللوحة.. لسه!</h3>
+          <p class="mt-3 text-sm sm:text-base font-bold text-fusha-forestDark/80 leading-relaxed max-w-md">
+            122 طالب في الصف الثالث الثانوي داخلوا وحققوا درجاتهم في فترة وجيزة — انت التالي؟
+          </p>
+          <a href="challenge.html" class="mt-6 inline-flex items-center gap-2 bg-fusha-forestDark text-white font-extrabold text-sm rounded-xl px-6 py-3.5 hover:bg-fusha-forest transition-colors shadow-lg">
+            <i data-lucide="trophy" class="w-4 h-4 text-fusha-sun"></i> شوف اللي وصلوا
+          </a>
+        </div>
+
+        <!-- mini leaderboard -->
+        <div class="rounded-3xl bg-white border border-stone-200 shadow-lg shadow-fusha-forest/10 p-5">
+          <p class="text-sm font-black text-fusha-forest mb-4 flex items-center gap-2"><i data-lucide="crown" class="w-4 h-4 text-fusha-sunDark"></i> متصدرو الأسبوع</p>
+          <ul class="space-y-3">
+            <li class="flex items-center gap-3"><span class="w-7 h-7 rounded-lg bg-fusha-sun text-fusha-forestDark text-xs font-black flex items-center justify-center">1</span><span class="flex-1 text-sm font-bold text-fusha-forest truncate">مريم أيمن</span><span class="text-xs font-black text-fusha-sunDark">98%</span></li>
+            <li class="flex items-center gap-3"><span class="w-7 h-7 rounded-lg bg-fusha-sage/30 text-fusha-forest text-xs font-black flex items-center justify-center">2</span><span class="flex-1 text-sm font-bold text-fusha-forest truncate">يوسف خالد</span><span class="text-xs font-black text-fusha-oliveDark">95%</span></li>
+            <li class="flex items-center gap-3"><span class="w-7 h-7 rounded-lg bg-fusha-khaki/50 text-fusha-forest text-xs font-black flex items-center justify-center">3</span><span class="flex-1 text-sm font-bold text-fusha-forest truncate">سلمى هشام</span><span class="text-xs font-black text-fusha-oliveDark">93%</span></li>
+            <li class="flex items-center gap-3"><span class="w-7 h-7 rounded-lg bg-fusha-stone text-fusha-forest text-xs font-black flex items-center justify-center">4</span><span class="flex-1 text-sm font-bold text-fusha-forest truncate">عمر فاروق</span><span class="text-xs font-black text-fusha-oliveDark">91%</span></li>
+            <li class="flex items-center gap-3"><span class="w-7 h-7 rounded-lg bg-fusha-stone text-fusha-forest text-xs font-black flex items-center justify-center">5</span><span class="flex-1 text-sm font-bold text-fusha-forest truncate">حبيبة محمد</span><span class="text-xs font-black text-fusha-oliveDark">90%</span></li>
+          </ul>
+          <a href="challenge.html" class="mt-4 block text-center text-xs font-extrabold text-fusha-sage hover:text-fusha-forest transition-colors border border-dashed border-fusha-khaki rounded-xl py-2.5">القائمة الكاملة في التحدي ←</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- quick links -->
+    <section class="grid sm:grid-cols-3 gap-4">
+      <a href="bank.html" class="group rounded-2xl bg-white border border-stone-200 p-5 flex items-center gap-4 hover:border-fusha-sage hover:shadow-lg hover:shadow-fusha-forest/10 transition-all">
+        <span class="w-12 h-12 rounded-xl bg-fusha-sageLight text-fusha-sage flex items-center justify-center group-hover:scale-110 transition-transform"><i data-lucide="library-big" class="w-6 h-6"></i></span>
+        <div><p class="font-extrabold text-fusha-forest">بنك الأسئلة</p><p class="text-xs font-semibold text-fusha-oliveDark mt-0.5">حل وتدرّب</p></div>
+      </a>
+      <a href="wallet.html" class="group rounded-2xl bg-white border border-stone-200 p-5 flex items-center gap-4 hover:border-fusha-sage hover:shadow-lg hover:shadow-fusha-forest/10 transition-all">
+        <span class="w-12 h-12 rounded-xl bg-fusha-sunLight text-fusha-sunDark flex items-center justify-center group-hover:scale-110 transition-transform"><i data-lucide="wallet" class="w-6 h-6"></i></span>
+        <div><p class="font-extrabold text-fusha-forest">المحفظة</p><p class="text-xs font-semibold text-fusha-oliveDark mt-0.5">شحن الكروت والرصيد</p></div>
+      </a>
+      <a href="mistakes.html" class="group rounded-2xl bg-white border border-stone-200 p-5 flex items-center gap-4 hover:border-fusha-sage hover:shadow-lg hover:shadow-fusha-forest/10 transition-all">
+        <span class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform"><i data-lucide="notebook-pen" class="w-6 h-6"></i></span>
+        <div><p class="font-extrabold text-fusha-forest">كشكول الأخطاء</p><p class="text-xs font-semibold text-fusha-oliveDark mt-0.5">راجع غلطاتك</p></div>
+      </a>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    FUSHA.requireAuth();
+    FUSHA.mount('dashboard');
+
+    // ── weekly tasks (student-managed, persisted) ──
+    const TASKS_KEY = 'fusha_tasks';
+    const listEl = document.getElementById('tasks-list');
+    const emptyEl = document.getElementById('tasks-empty');
+    const input = document.getElementById('task-input');
+    const getTasks = () => { try { return JSON.parse(localStorage.getItem(TASKS_KEY) || '[]'); } catch { return []; } };
+    const saveTasks = (t) => localStorage.setItem(TASKS_KEY, JSON.stringify(t));
+
+    function renderTasks() {
+      const tasks = getTasks();
+      emptyEl.style.display = tasks.length ? 'none' : '';
+      listEl.innerHTML = tasks.map(t => `
+        <li class="flex items-center gap-3 rounded-xl border px-4 py-3 transition-colors ${t.done ? 'bg-fusha-sageLight border-transparent' : 'border-stone-200 hover:border-fusha-sage'}">
+          <button data-act="toggle" data-id="${t.id}" class="w-6 h-6 rounded-lg shrink-0 flex items-center justify-center ${t.done ? 'bg-fusha-sage text-white' : 'border-2 border-fusha-khaki'}" title="${t.done ? 'تراجع' : 'تمّت'}">
+            ${t.done ? '<i data-lucide="check" class="w-4 h-4"></i>' : ''}
+          </button>
+          <button data-act="toggle" data-id="${t.id}" class="flex-1 text-right text-sm font-bold ${t.done ? 'text-fusha-oliveDark line-through decoration-fusha-sage/60' : 'text-fusha-forest'}">${FUSHA.esc(t.text)}</button>
+          <button data-act="del" data-id="${t.id}" class="w-7 h-7 rounded-lg text-fusha-oliveDark/60 hover:text-rose-500 hover:bg-rose-50 flex items-center justify-center transition-colors" title="مسح المهمة">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </li>`).join('');
+      lucide.createIcons();
+    }
+    function addTask() {
+      const v = input.value.trim();
+      if (!v) return;
+      const t = getTasks();
+      t.unshift({ id: Date.now(), text: v, done: false });
+      saveTasks(t);
+      input.value = '';
+      input.focus();
+      renderTasks();
+    }
+    document.getElementById('task-add').addEventListener('click', addTask);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') addTask(); });
+    listEl.addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-act]');
+      if (!b) return;
+      const id = +b.dataset.id;
+      let t = getTasks();
+      if (b.dataset.act === 'del') t = t.filter(x => x.id !== id);
+      else t = t.map(x => x.id === id ? { ...x, done: !x.done } : x);
+      saveTasks(t);
+      renderTasks();
+    });
+    renderTasks();
+  </script>
+</body>
+</html>

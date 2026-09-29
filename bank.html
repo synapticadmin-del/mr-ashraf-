@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>بنك أسئلة وتدريبات اللغة العربية | فُصْحَى — أ. أشرف سليم</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg?v=4" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png?v=4" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=4" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;700;800;900&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="platform.js?v=6"></script>
+  <link rel="stylesheet" href="platform.css?v=6" />
+</head>
+<body class="bg-fusha-cream text-slate-800 font-cairo antialiased min-h-screen flex flex-col selection:bg-neon-lime selection:text-space-950">
+
+  <div id="app-header"></div>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
+
+    <div id="heroSlot"></div>
+
+    <!-- Quick actions -->
+    <div class="flex flex-wrap items-center gap-3">
+      <button id="randomQuizBtn" class="px-6 py-4 rounded-2xl bg-neon-lime hover:bg-neon-limeHover text-space-950 font-alexandria font-black text-xs sm:text-sm shadow-lg shadow-neon-lime/20 transition flex items-center justify-center gap-2.5 cursor-pointer transform hover:-translate-y-0.5">
+        <i data-lucide="shuffle" class="w-4 h-4 text-space-950"></i>
+        <span>توليد كويز عشوائي سريع (10 مسائل)</span>
+      </button>
+      <button id="resetSessionBtn" class="px-4 py-2.5 rounded-xl bg-white hover:bg-stone-100 text-slate-600 font-bold text-xs border border-stone-200 transition flex items-center justify-center gap-2 cursor-pointer">
+        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-slate-500"></i>
+        <span>إعادة ضبط إجابات الجلسة</span>
+      </button>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white p-4 sm:p-6 rounded-3xl border border-stone-200 shadow-sm space-y-4">
+      <div class="touch-swipe-rail w-full" id="branchFilters"></div>
+
+      <div class="pt-3 border-t border-stone-200 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+        <div class="relative flex-1 max-w-md">
+          <input type="text" id="bankSearch" placeholder="ابحث في المسائل: إعراب، مبتدأ، تشبيه، حجازي..." class="w-full px-4 py-2.5 pe-20 ps-10 rounded-2xl bg-fusha-cream border border-stone-200 text-xs text-space-900 placeholder:text-slate-500 focus:outline-none focus:border-neon-lime transition" />
+          <i data-lucide="search" class="w-4 h-4 absolute start-3.5 top-3 text-slate-500"></i>
+          <span class="hidden sm:inline-flex items-center absolute end-2.5 top-2 px-1.5 py-0.5 rounded bg-white font-mono text-[10px] text-slate-500">Ctrl+K</span>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <div class="flex items-center gap-1 bg-fusha-cream p-1 rounded-xl border border-stone-200">
+            <span class="text-[11px] text-slate-500 font-bold px-2">المستوى:</span>
+            <button class="difficulty-btn px-2.5 py-1 rounded-lg font-bold bg-royal-blue text-white" data-difficulty="">الكل</button>
+            <button class="difficulty-btn px-2.5 py-1 rounded-lg font-medium text-slate-500 hover:text-space-900" data-difficulty="تطبيق مباشر">أساسي</button>
+            <button class="difficulty-btn px-2.5 py-1 rounded-lg font-medium text-slate-500 hover:text-space-900" data-difficulty="متوسط">متوسط</button>
+            <button class="difficulty-btn px-2.5 py-1 rounded-lg font-medium text-slate-500 hover:text-space-900" data-difficulty="مستويات عليا">مستويات عليا</button>
+          </div>
+          <button id="toggleNotebookOnlyBtn" class="px-3 py-2 rounded-xl border border-stone-200 bg-fusha-cream text-slate-600 hover:text-[#96690B] hover:border-neon-lime font-bold transition flex items-center gap-1.5 cursor-pointer">
+            <i data-lucide="bookmark" class="w-3.5 h-3.5 text-[#96690B]"></i>
+            <span>كشكول أخطائي فقط</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between px-2 text-xs font-semibold text-slate-500">
+      <div class="flex items-center gap-2">
+        <span>عرض المسائل:</span>
+        <strong id="visibleCount" class="text-[#96690B] font-bold font-alexandria">0</strong>
+        <span>مسألة متوفرة</span>
+      </div>
+      <span class="text-[11px] text-slate-500">إعداد وتدقيق الأستاذ أشرف سليم وفق مواصفات امتحان الثانوية العامة 2026</span>
+    </div>
+
+    <div id="questionsContainer" class="space-y-6"></div>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script>
+    FUSHA.mount('bank');
+    document.getElementById('heroSlot').outerHTML = FUSHA.hero('layers', 'بنك الأسئلة', 'تدريبات تفاعلية على كل أقسام اللغة العربية — اختار القسم وابدأ الحل فوراً 📚');
+
+    const esc = FUSHA.esc;
+    const TOPICS = [
+      { id: '', label: 'جميع فصول المنهج', icon: 'layout-grid', color: 'text-neon-lime' },
+      { id: 'نحو', label: 'النحو والإعراب', icon: 'pen-line', color: 'text-royal-blue' },
+      { id: 'بلاغة', label: 'البلاغة والصور البيانية', icon: 'sparkles', color: 'text-[#96690B]' },
+      { id: 'قراءة', label: 'القراءة والنصوص', icon: 'book-open', color: 'text-amber-600' },
+      { id: 'أدب', label: 'الأدب والعصور', icon: 'landmark', color: 'text-purple-500' },
+      { id: 'إملاء', label: 'الإملاء والتراكيب', icon: 'spell-check', color: 'text-emerald-600' },
+    ];
+
+    const QUESTIONS = [
+      { id: 'q1', topic: 'نحو', difficulty: 'تطبيق مباشر', q: 'ما إعراب كلمة «العلمُ» في جملة: «العلمُ نورٌ»؟', options: ['مبتدأ مرفوع', 'خبر مرفوع', 'فاعل', 'مفعول به'], correct: 0, explain: '«العلم» مبتدأ مرفوع وعلامة رفعه الضمة، و«نور» خبره.' },
+      { id: 'q2', topic: 'نحو', difficulty: 'متوسط', q: 'في جملة «قرأَ الطالبُ الدرسَ»، كلمة «الدرسَ» تُعرب:', options: ['فاعل', 'مفعول به منصوب', 'مبتدأ', 'حال'], correct: 1, explain: 'وقعت عليه فعل القراءة فهو مفعول به منصوب بالفتحة.' },
+      { id: 'q3', topic: 'بلاغة', difficulty: 'تطبيق مباشر', q: '«العلمُ نورٌ» — نوع الصورة البيانية:', options: ['استعارة مكنية', 'تشبيه بليغ', 'كناية عن صفة', 'مجاز مرسل'], correct: 1, explain: 'شُبّه العلم بالنور بدون أداة ولا وجه شبه — تشبيه بليغ.' },
+      { id: 'q4', topic: 'بلاغة', difficulty: 'مستويات عليا', q: '«والقلمُ يسيلُ مدادًا» — الصورة:', options: ['تشبيه', 'استعارة مكنية', 'استعارة تصريحية', 'كناية'], correct: 1, explain: 'شُبّه القلم بمن يسيل منه المداد — مشبه به محذوف.' },
+      { id: 'q5', topic: 'قراءة', difficulty: 'متوسط', q: 'الفكرة المحورية في نص «قيمة العلم» هي:', options: ['العلم رفعة صاحبه', 'العلم وسيلة للرزق فقط', 'العلم ترف فكري', 'العلم يقتصر على المدارس'], correct: 0, explain: 'النص يدور حول رفعة صاحب العلم ومكانته.' },
+      { id: 'q6', topic: 'أدب', difficulty: 'متوسط', q: 'من رواد المدرسة الرومانسية (أبولو):', options: ['أحمد شوقي', 'أبو القاسم الشابي', 'حافظ إبراهيم', 'أحمد زكي أبو شادي'], correct: 3, explain: 'أبو شادي أسس جماعة أبولو 1932.' },
+      { id: 'q7', topic: 'نحو', difficulty: 'مستويات عليا', q: '«ما زالَ المجتهدُ متفوقًا» — إعراب «متفوقًا»:', options: ['خبر ما زال منصوب', 'حال', 'تمييز', 'نعت'], correct: 0, explain: 'ما زال ناسخ ناقص يرفع المبتدأ وينصب الخبر.' },
+      { id: 'q8', topic: 'إملاء', difficulty: 'تطبيق مباشر', q: 'الجملة الصحيحة إملائيًا:', options: ['إنّ العلمَ في الصدور', 'ان العلم في الصدور', 'إن العلم فى الصدور', 'إنّ العلم فى الصدور'], correct: 0, explain: 'إنّ مشددة، و«في» تُكتب بالياء.' },
+      { id: 'q9', topic: 'قراءة', difficulty: 'مستويات عليا', q: 'أسلوب «أتظنّ أنَّ الكسلَ ينفع؟» يفيد:', options: ['الاستفهام الحقيقي', 'الإنكار والتوبيخ', 'التمني', 'النداء'], correct: 1, explain: 'استفهام إنكاري غرضه التوبيخ لا طلب الإجابة.' },
+      { id: 'q10', topic: 'أدب', difficulty: 'تطبيق مباشر', q: '«العصر الجاهلي» سُمّي بذلك لأنه:', options: ['عصر الجهل بالقراءة', 'سبق الإسلام وغلبت عليه الجاهلية', 'عصر الجهل بالعلوم', 'عصر الخرافة فقط'], correct: 1, explain: 'العصر السابق للإسلام وكانت فيه صفات الجاهلية.' },
+      { id: 'q11', topic: 'نحو', difficulty: 'متوسط', q: 'جمع المؤنث السالم يُعرب:', options: ['بالضمة والكسرة فقط', 'يرفع بالضمة وينصب ويجر بالكسرة', 'بالألف والياء', 'بالحركات المقدرة'], correct: 1, explain: 'يرفع بالضمة، وينصب ويجر بالكسرة.' },
+      { id: 'q12', topic: 'بلاغة', difficulty: 'متوسط', q: '«وجاءت جيوشُ الحقّ تزحف» — الصورة:', options: ['تشبيه تمثيلي', 'استعارة', 'كناية عن موصوف', 'سرد عادي'], correct: 2, explain: 'كناية عن موصوف — الجيوش كناية عن أنصار الحق.' },
+    ];
+
+    let state = { topic: '', q: '', diff: '', notebookOnly: false, answered: {} };
+
+    const mistakeIds = new Set(FUSHA.getMistakes().map(m => m.id));
+
+    function paintTopics() {
+      document.getElementById('branchFilters').innerHTML = TOPICS.map(t => `
+        <button data-topic="${esc(t.id)}" class="branch-btn touch-swipe-pill transition flex items-center gap-1.5 cursor-pointer ${state.topic === t.id ? 'bg-royal-blue text-white shadow-sm' : 'bg-white text-slate-600 hover:bg-stone-100 border border-stone-200'}">
+          <i data-lucide="${t.icon}" class="w-3.5 h-3.5 ${t.color}"></i><span>${t.label}</span>
+        </button>`).join('');
+      document.querySelectorAll('.branch-btn').forEach(b => b.addEventListener('click', () => { state.topic = b.dataset.topic; paintTopics(); render(); }));
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function filtered() {
+      return QUESTIONS.filter(q =>
+        (!state.topic || q.topic === state.topic) &&
+        (!state.diff || q.difficulty === state.diff) &&
+        (!state.q || (q.q + q.options.join(' ')).includes(state.q)) &&
+        (!state.notebookOnly || mistakeIds.has(q.id))
+      );
+    }
+
+    function card(q, idx) {
+      const st = state.answered[q.id];
+      const letters = ['أ', 'ب', 'ج', 'د'];
+      return `
+      <article class="bg-white rounded-3xl border border-stone-200 shadow-sm p-5 sm:p-7 space-y-4" data-qid="${q.id}">
+        <div class="flex items-center justify-between gap-3 flex-wrap">
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-lg bg-royal-blue text-white text-[11px] font-black">#${idx + 1}</span>
+            <span class="px-2.5 py-1 rounded-lg bg-fusha-cream border border-stone-200 text-[10px] font-bold text-slate-600">${esc(q.topic)}</span>
+            <span class="px-2.5 py-1 rounded-lg bg-fusha-cream border border-stone-200 text-[10px] font-bold text-slate-600">${esc(q.difficulty)}</span>
+          </div>
+          ${st ? `<span class="px-2.5 py-1 rounded-lg text-[10px] font-black ${st.correct ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-rose-50 text-rose-600 border border-rose-200'}">${st.correct ? 'إجابة صحيحة ✅' : 'إجابة خاطئة ❌'}</span>` : ''}
+        </div>
+        <h3 class="font-alexandria font-black text-base sm:text-lg text-space-900 leading-relaxed">${esc(q.q)}</h3>
+        <div class="grid sm:grid-cols-2 gap-2.5">
+          ${q.options.map((o, i) => {
+            let cls = 'border-stone-200 bg-fusha-cream hover:border-royal-blue/50';
+            if (st) {
+              if (i === q.correct) cls = 'correct-highlight border-emerald-300 bg-emerald-50';
+              else if (i === st.picked) cls = 'wrong-highlight border-rose-300 bg-rose-50';
+            }
+            return `
+            <button class="option-card flex items-center gap-3 px-4 py-3.5 rounded-2xl border-2 text-start cursor-pointer ${cls}" data-opt="${i}" ${st ? 'disabled' : ''}>
+              <span class="w-7 h-7 rounded-lg ${st && i === q.correct ? 'bg-emerald-500 text-white' : st && i === st.picked ? 'bg-rose-500 text-white' : 'bg-white border border-stone-200 text-slate-600'} flex items-center justify-center text-xs font-black shrink-0">${letters[i]}</span>
+              <span class="text-sm font-bold text-slate-700">${esc(o)}</span>
+            </button>`;
+          }).join('')}
+        </div>
+        ${st ? `
+        <div class="rounded-2xl border ${st.correct ? 'border-emerald-200 bg-emerald-50/60' : 'border-amber-200 bg-amber-50/60'} p-4 flex items-start gap-2.5">
+          <i data-lucide="lightbulb" class="w-4.5 h-4.5 ${st.correct ? 'text-emerald-600' : 'text-amber-600'} shrink-0 mt-0.5"></i>
+          <div>
+            <p class="text-xs font-black ${st.correct ? 'text-emerald-700' : 'text-amber-700'}">${st.correct ? 'صح عليك!' : 'الإجابة الصحيحة: ' + esc(q.options[q.correct])}</p>
+            <p class="text-[11px] font-bold text-slate-600 mt-1 leading-relaxed">${esc(q.explain)}</p>
+          </div>
+        </div>` : ''}
+      </article>`;
+    }
+
+    function render() {
+      const list = filtered();
+      document.getElementById('visibleCount').textContent = list.length;
+      const box = document.getElementById('questionsContainer');
+      if (!list.length) {
+        box.innerHTML = `<div class="bg-white rounded-3xl border border-stone-200 p-12 text-center space-y-3">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-stone-100 flex items-center justify-center"><i data-lucide="search-x" class="w-8 h-8 text-slate-400"></i></div>
+          <p class="font-alexandria font-black text-lg text-space-900">مفيش مسائل مطابقة</p>
+          <p class="text-xs font-bold text-slate-500">جرّب تعديل الفلاتر أو البحث</p>
+        </div>`;
+      } else {
+        box.innerHTML = list.map(card).join('');
+        box.querySelectorAll('.option-card').forEach(btn => btn.addEventListener('click', () => {
+          const art = btn.closest('[data-qid]');
+          const q = QUESTIONS.find(x => x.id === art.dataset.qid);
+          const picked = Number(btn.dataset.opt);
+          const ok = picked === q.correct;
+          state.answered[q.id] = { picked, correct: ok };
+          if (!ok) FUSHA.addMistake({ id: q.id, question_text: q.q, given_answer: q.options[picked], correct_answer: q.options[q.correct], topic: q.topic, created_at: new Date().toISOString(), is_resolved: false });
+          render();
+        }));
+      }
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    document.getElementById('bankSearch').addEventListener('input', (e) => { state.q = e.target.value.trim(); render(); });
+    document.querySelectorAll('.difficulty-btn').forEach(b => b.addEventListener('click', () => {
+      state.diff = b.dataset.difficulty;
+      document.querySelectorAll('.difficulty-btn').forEach(x => {
+        const on = x.dataset.difficulty === state.diff;
+        x.className = 'difficulty-btn px-2.5 py-1 rounded-lg ' + (on ? 'font-bold bg-royal-blue text-white' : 'font-medium text-slate-500 hover:text-space-900');
+      });
+      render();
+    }));
+    document.getElementById('toggleNotebookOnlyBtn').addEventListener('click', () => {
+      state.notebookOnly = !state.notebookOnly;
+      document.getElementById('toggleNotebookOnlyBtn').classList.toggle('border-neon-lime');
+      document.getElementById('toggleNotebookOnlyBtn').classList.toggle('bg-neon-limeLight');
+      render();
+    });
+    document.getElementById('resetSessionBtn').addEventListener('click', () => { state.answered = {}; render(); FUSHA.toast('إجابات الجلسة اتمسحت'); });
+    document.getElementById('randomQuizBtn').addEventListener('click', () => {
+      state = { topic: '', q: '', diff: '', notebookOnly: false, answered: {} };
+      QUESTIONS.sort(() => Math.random() - 0.5);
+      paintTopics(); render();
+      FUSHA.toast('كويز عشوائي جاهز — ابدأ الحل ⚡');
+      document.getElementById('questionsContainer').scrollIntoView({ behavior: 'smooth' });
+    });
+    document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); document.getElementById('bankSearch').focus(); } });
+
+    paintTopics();
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+/* FUSHA PLATFORM — shared inner-pages styles (complements Tailwind CDN) */
+
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+.diagonal-cut-top {
+  clip-path: polygon(0 4.5vw, 100% 0, 100% 100%, 0 100%);
+  margin-top: -4.5vw;
+}
+@media (max-width: 768px) {
+  .diagonal-cut-top {
+    clip-path: polygon(0 25px, 100% 0, 100% 100%, 0 100%);
+    margin-top: -25px;
+  }
+}
+
+/* ═══ dark mode (class-based on <html>) ═══ */
+.icon-moon { display: none; }
+.dark .icon-sun { display: none; }
+.dark .icon-moon { display: inline-flex; }
+
+.dark body, .dark .bg-fusha-cream, .dark .bg-fusha-stone { background-color: #0D1D18; color: #E8E4DA; }
+.dark .bg-white, .dark .bg-white\/80, .dark .bg-white\/70, .dark .bg-white\/60,
+.dark .bg-stone-50, .dark .bg-stone-100 { background-color: #16302A; }
+.dark .bg-stone-200, .dark .bg-fusha-sageLight, .dark .bg-fusha-sunLight,
+.dark .bg-fusha-khakiLight { background-color: #1E3E34; }
+.dark .bg-fusha-sage\/30, .dark .bg-fusha-khaki\/50 { background-color: #24463A; }
+
+.dark .text-fusha-forest, .dark .text-fusha-forestDark,
+.dark .text-space-900, .dark .text-slate-800, .dark .text-slate-700 { color: #E8E4DA; }
+.dark .text-fusha-oliveDark, .dark .text-fusha-sage, .dark .text-fusha-sunDark,
+.dark .text-slate-600, .dark .text-slate-500, .dark .text-slate-400 { color: #B7B19B; }
+.dark .text-fusha-forest\/45, .dark .text-fusha-forest\/35 { color: rgba(232,228,218,.45); }
+.dark .text-royal-blue { color: #EAA72E; }
+
+.dark .border-stone-100, .dark .border-stone-200, .dark .border-stone-300,
+.dark .border-fusha-khaki, .dark .border-fusha-khaki\/50, .dark .border-fusha-khaki\/60,
+.dark .border-fusha-khaki\/70 { border-color: #2C5346; }
+.dark .border-fusha-sun\/40 { border-color: rgba(234,167,46,.5); }
+
+.dark header.sticky { background-color: rgba(13,29,24,.92); }
+.dark .leaf-bg {
+  background-color: #16302A;
+  background-image:
+    radial-gradient(ellipse 340px 200px at 8% 15%, rgba(95,122,97,0.22), transparent 60%),
+    radial-gradient(ellipse 300px 180px at 92% 85%, rgba(139,149,101,0.20), transparent 60%),
+    radial-gradient(ellipse 220px 140px at 15% 90%, rgba(95,122,97,0.16), transparent 60%);
+}
+
+.dark input, .dark textarea, .dark select {
+  background-color: #16302A !important;
+  color: #E8E4DA !important;
+  border-color: #2C5346 !important;
+}
+.dark ::placeholder { color: #8B9565 !important; }
+
+.dark .option-card { background-color: #16302A; border-color: #2C5346; }
+.dark .option-card.selected { background-color: rgba(234,167,46,.14) !important; }
+.dark .shadow-lg, .dark .shadow-xl, .dark .shadow-2xl, .dark .shadow-md, .dark .shadow-sm {
+  box-shadow: 0 12px 30px -10px rgba(0,0,0,.55) !important;
+}
+
+/* collapsible right sidebar */
+#sidebar { transition: width .3s cubic-bezier(.2, 0, 0, 1); }
+#sidebar .nav-label {
+  opacity: 0; width: 0; overflow: hidden; white-space: nowrap;
+  font-weight: 700; font-size: .8125rem;
+  transition: opacity .25s ease, width .25s ease;
+}
+#sidebar.expanded .nav-label { opacity: 1; width: auto; }
+#sidebar.expanded .collapse-arrow { transform: rotate(180deg); }
+#sidebar.expanded > nav { align-self: stretch; }
+#sidebar.expanded > a[title="تسجيل الخروج"] { align-self: center; }
+
+/* quiz option cards */
+.option-card { transition: all 180ms cubic-bezier(0.2, 0, 0, 1); }
+.option-card:hover { transform: translateY(-2px); }
+.option-card.selected {
+  border-color: #EAA72E !important;
+  background-color: rgba(234, 167, 46, 0.08) !important;
+  box-shadow: 0 0 15px rgba(234, 167, 46, 0.18);
+}
+.option-card.correct-highlight {
+  border-color: #10B981 !important;
+  background-color: rgba(16, 185, 129, 0.12) !important;
+}
+.option-card.wrong-highlight {
+  border-color: #EF4444 !important;
+  background-color: rgba(239, 68, 68, 0.10) !important;
+}
+
+/* horizontal swipeable pill rails */
+.touch-swipe-rail {
+  display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.25rem;
+  scroll-snap-type: x mandatory;
+}
+.touch-swipe-pill {
+  scroll-snap-align: start; flex-shrink: 0;
+  padding: 0.5rem 1rem; border-radius: 0.9rem;
+  font-size: 0.75rem; font-weight: 800;
+}
+
+/* chat voice bars animation */
+@keyframes voiceBar { 0%,100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
+
+/* upload dropzone */
+.dropzone { transition: all .2s ease; }
+.dropzone:hover { border-color: #EAA72E; background: #FDF3DC; }

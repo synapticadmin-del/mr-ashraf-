@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>مجموعة الطلاب والمعلم | فُصْحَى — أ. أشرف سليم</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg?v=4" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png?v=4" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=4" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;700;800;900&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="platform.js?v=6"></script>
+  <link rel="stylesheet" href="platform.css?v=6" />
+</head>
+<body class="bg-fusha-cream text-slate-800 font-cairo antialiased min-h-screen flex flex-col selection:bg-neon-lime selection:text-space-950">
+
+  <div id="app-header"></div>
+
+  <main class="flex-1 w-full flex flex-col">
+    <div class="max-w-4xl w-full mx-auto px-4 sm:px-6 pt-6 sm:pt-8 space-y-4">
+      <div id="heroSlot"></div>
+      <div class="flex items-center gap-2 text-[11px] font-bold text-slate-500 px-1">
+        <span class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span></span>
+        <span>1,214 عضو متصل الآن</span>
+        <span class="text-slate-300">•</span>
+        <span>مجموعة «فُصْحَى — ثانوية عامة 2026»</span>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div id="msgList" class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-6 space-y-4"></div>
+
+    <!-- Composer -->
+    <div class="sticky bottom-0 w-full bg-fusha-cream/95 backdrop-blur border-t border-stone-200">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 py-3.5">
+        <div id="recordingBar" class="hidden mb-2.5 items-center gap-3 bg-rose-50 border border-rose-200 rounded-2xl px-4 py-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
+          <span class="text-xs font-black text-rose-600">جاري تسجيل رسالة صوتية…</span>
+          <span id="recTime" class="text-xs font-bold text-rose-500 font-mono" dir="ltr">0:00</span>
+          <button id="stopRec" class="ms-auto px-3 py-1 rounded-lg bg-rose-500 text-white text-[10px] font-black cursor-pointer">إيقاف وإرسال</button>
+        </div>
+        <div class="flex items-end gap-2">
+          <button id="micBtn" class="w-11 h-11 rounded-2xl bg-white border border-stone-200 text-slate-500 hover:text-royal-blue hover:border-royal-blue/40 flex items-center justify-center transition cursor-pointer shrink-0" title="تسجيل صوتي">
+            <i data-lucide="mic" class="w-5 h-5"></i>
+          </button>
+          <div class="flex-1 bg-white border border-stone-200 rounded-2xl focus-within:border-neon-lime transition overflow-hidden">
+            <textarea id="msgInput" rows="1" placeholder="اكتب رسالتك للمجموعة… (Enter للإرسال)" class="w-full px-4 py-3 text-sm text-space-900 placeholder:text-slate-400 bg-transparent focus:outline-none resize-none max-h-32"></textarea>
+          </div>
+          <button id="sendBtn" class="w-11 h-11 rounded-2xl bg-royal-blue hover:bg-royal-blue-hover text-white flex items-center justify-center transition cursor-pointer shrink-0 shadow-md" title="إرسال">
+            <i data-lucide="send-horizontal" class="w-5 h-5 -scale-x-100"></i>
+          </button>
+        </div>
+        <p class="text-[10px] text-slate-400 font-bold mt-2 px-1">المجموعة مفتوحة لطلاب كورسات فُصْحَى فقط — الرسائل الصوتية والصور متاحة للأعضاء المشتركين.</p>
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+
+  <script>
+    FUSHA.mount('chats');
+    document.getElementById('heroSlot').outerHTML = FUSHA.hero('messages-square', 'مجموعة الطلاب والمعلم', 'اسأل أ. أشرف سليم مباشرة أو ناقش زمايلك في المنهج — نصوص ورسائل صوتية 💬');
+    if (window.lucide) window.lucide.createIcons();
+
+    const esc = FUSHA.esc;
+    const u = FUSHA.getUser() || { name: 'إبراهيم ممدوح' };
+    const list = document.getElementById('msgList');
+
+    const MSGS = [
+      { id: 1, name: 'أ. أشرف سليم', role: 'teacher', body: 'أهلاً بشباب 2026 🔥 النهاردة هنبدأ مراجعة «كان وأخواتها» الساعة ٨ مساءً على Zoom — الجاهز يرفع إيده 🙋‍♂️', time: '10:15 ص', voice: false },
+      { id: 2, name: 'عمر السيد', role: 'student', body: 'يا مستر سؤال: في «ما زال الطالب مجتهدًا» ليه «مجتهدًا» منصوبة؟', time: '10:22 ص' },
+      { id: 3, name: 'أ. أشرف سليم', role: 'teacher', body: 'لأن ما زال من أخوات كان يا بطل — بتدخل على الجملة الاسمية فترفع المبتدأ وينصب الخبر. «مجتهدًا» هنا خبر ما زال، مش حال 👌', time: '10:24 ص' },
+      { id: 4, name: 'سلمى أحمد', role: 'student', body: '', time: '10:31 ص', voice: true, voiceLen: '0:42' },
+      { id: 5, name: 'يوسف خالد', role: 'student', body: 'الامتحان التجريبي بكرة هيكون على النحو بس ولا شامل؟', time: '11:05 ص' },
+      { id: 6, name: 'أ. أشرف سليم', role: 'teacher', body: 'شامل الوحدة الأولى كاملة: نحو + بلاغة + قراءة. راجعوا أوراق البلاغة النهاردة قبل النوم 🌙', time: '11:12 ص' },
+    ];
+
+    function avatarHtml(m) {
+      if (m.role === 'teacher') return `<img src="assets/teacher-ashraf.jpg" class="w-9 h-9 rounded-full object-cover border-2 border-neon-lime shadow" alt="أ. أشرف سليم" />`;
+      const c = ['bg-royal-blue', 'bg-[#96690B]', 'bg-purple-500', 'bg-amber-500', 'bg-rose-500'][m.name.charCodeAt(0) % 5];
+      return `<span class="w-9 h-9 rounded-full ${c} text-white flex items-center justify-center text-xs font-black shadow">${esc(m.name.trim()[0])}</span>`;
+    }
+
+    function bubble(m) {
+      const mine = m.mine;
+      const rowCls = mine ? 'flex-row-reverse' : '';
+      const bubbleCls = mine ? 'bg-royal-blue text-white rounded-3xl rounded-tl-md' : m.role === 'teacher' ? 'bg-space-900 text-white rounded-3xl rounded-tr-md' : 'bg-white text-space-900 border border-stone-200 rounded-3xl rounded-tr-md';
+      const metaCls = mine ? 'text-white/70' : 'text-slate-400';
+      return `
+      <div class="flex items-start gap-2.5 ${rowCls}">
+        <div class="shrink-0 mt-1">${avatarHtml(m)}</div>
+        <div class="max-w-[80%] sm:max-w-[70%]">
+          ${!mine ? `<p class="text-[10px] font-black mb-1 ${m.role === 'teacher' ? 'text-royal-blue' : 'text-slate-500'} px-1">${esc(m.name)}${m.role === 'teacher' ? ' <span class="px-1.5 py-0.5 rounded bg-neon-lime text-space-950 text-[8px] font-black">المعلم</span>' : ''}</p>` : ''}
+          <div class="${bubbleCls} px-4 py-3 shadow-sm">
+            ${m.voice ? `
+              <div class="flex items-center gap-2.5 min-w-[160px]">
+                <button class="w-8 h-8 rounded-full ${mine ? 'bg-white/20' : 'bg-neon-lime'} flex items-center justify-center cursor-pointer shrink-0" onclick="FUSHA.toast('تشغيل الرسالة الصوتية 🎧')"><i data-lucide="play" class="w-3.5 h-3.5 ${mine ? 'text-white' : 'text-space-950'} fill-current"></i></button>
+                <div class="flex items-end gap-0.5 h-5">
+                  ${[4,9,13,8,14,6,11,15,7,12,5,10,8,4].map(h => `<span class="w-0.5 rounded ${mine ? 'bg-white/60' : 'bg-royal-blue/50'}" style="height:${h}px"></span>`).join('')}
+                </div>
+                <span class="text-[10px] font-bold ${metaCls}" dir="ltr">${m.voiceLen}</span>
+              </div>`
+            : `<p class="text-sm font-semibold leading-relaxed">${esc(m.body)}</p>`}
+            <p class="text-[9px] font-bold mt-1.5 text-start ${metaCls}">${m.time}</p>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function render() {
+      list.innerHTML = MSGS.map(bubble).join('');
+      if (window.lucide) window.lucide.createIcons();
+      list.scrollTop = list.scrollHeight;
+    }
+
+    function nowTime() {
+      const d = new Date();
+      let h = d.getHours(), m = String(d.getMinutes()).padStart(2, '0');
+      const am = h < 12 ? 'ص' : 'م';
+      h = h % 12 || 12;
+      return `${h}:${m} ${am}`;
+    }
+
+    const input = document.getElementById('msgInput');
+    function send() {
+      const t = input.value.trim();
+      if (!t) return;
+      MSGS.push({ name: u.name, role: 'me', body: t, time: nowTime(), mine: true });
+      input.value = '';
+      render();
+      list.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      setTimeout(() => {
+        MSGS.push({ name: 'أ. أشرف سليم', role: 'teacher', body: 'وصلني سؤالك يا بطل — هراجعه وأرد عليك فورًا 🙌', time: nowTime() });
+        render();
+      }, 1800);
+    }
+    document.getElementById('sendBtn').addEventListener('click', send);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
+    input.addEventListener('input', () => { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 128) + 'px'; });
+
+    // fake voice recording bar
+    let recTimer = null, recSec = 0;
+    document.getElementById('micBtn').addEventListener('click', () => {
+      document.getElementById('recordingBar').classList.remove('hidden');
+      document.getElementById('recordingBar').classList.add('flex');
+      recSec = 0;
+      document.getElementById('recTime').textContent = '0:00';
+      recTimer = setInterval(() => {
+        recSec++;
+        document.getElementById('recTime').textContent = Math.floor(recSec / 60) + ':' + String(recSec % 60).padStart(2, '0');
+      }, 1000);
+    });
+    document.getElementById('stopRec').addEventListener('click', () => {
+      clearInterval(recTimer);
+      document.getElementById('recordingBar').classList.add('hidden');
+      document.getElementById('recordingBar').classList.remove('flex');
+      const len = Math.floor(recSec / 60) + ':' + String(recSec % 60).padStart(2, '0');
+      MSGS.push({ name: u.name, role: 'me', body: '', time: nowTime(), mine: true, voice: true, voiceLen: len === '0:00' ? '0:01' : len });
+      render();
+      FUSHA.toast('الرسالة الصوتية اتبعتت 🎤');
+    });
+
+    render();
+  </script>
+</body>
+</html>

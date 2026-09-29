@@ -19,9 +19,9 @@
   --brand-cream: #FBFBFA;
   --brand-slate: #1C2E29;
 
-  /* SVG Transition colors from Animmaster (Gravity) */
-  --transition-stroke-1: #0033CC;
-  --transition-stroke-2: #0A0E27;
+  /* SVG Transition colors (Fusha identity) */
+  --transition-stroke-1: #EAA72E;
+  --transition-stroke-2: #142B24;
 }
 
 /* Base resets & typography */
